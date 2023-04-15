@@ -28,7 +28,7 @@ type Params = {
   testID?: string;
 };
 
-const getParams = (route: Route, focused: boolean): Params => {
+const getParams = (route: Route): Params => {
   switch (route.name) {
     case ScreenConst.HOME_SCREEN:
       return {
@@ -60,7 +60,7 @@ const MainTabBottom = (): ReactElement => {
       <Tab.Navigator
         screenOptions={({ route }): BottomTabNavigationOptions => ({
           tabBarIcon: ({ focused }: { focused: boolean }): ReactElement => {
-            const { icon } = getParams(route, focused);
+            const { icon } = getParams(route);
 
             return (
               <BaseImage
@@ -71,7 +71,7 @@ const MainTabBottom = (): ReactElement => {
           },
           tabBarBadgeStyle: { backgroundColor: ColorConst.primary },
           tabBarLabel: ({ focused }: { focused: boolean }): ReactElement => {
-            const { title } = getParams(route, focused);
+            const { title } = getParams(route);
             return (
               <BaseText
                 style={focused ? styles.titleActive : styles.titleInActive}>
