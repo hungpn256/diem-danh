@@ -1,0 +1,9 @@
+{
+  "extends": ["tslint-config-prettier", "tslint:recommended"],
+  "rules": {
+    "no-duplicate-imports": true,
+    "no-any": true,
+    "jsx-no-lambda": ["never"],
+    "jsx-boolean-value": ["never"]
+  }
+}

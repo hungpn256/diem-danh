@@ -1,0 +1,17 @@
+import { StyleSheet } from 'react-native';
+import { ColorConst } from 'consts/ColorConst';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: ColorConst.primary,
+  },
+  styleGrow: {
+    flexGrow: 1,
+  },
+  ctKeyboard: {
+    flex: 1,
+  },
+});
+
+export { styles };
