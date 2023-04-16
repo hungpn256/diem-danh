@@ -8,7 +8,7 @@ module.exports = {
   extends: ['prettier', 'plugin:react/recommended'],
   rules: {
     'no-console': 'error',
-    '@typescript-eslint/no-unused-vars': ['error', {args: 'after-used'}],
+    '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used' }],
     '@typescript-eslint/explicit-function-return-type': ['error'],
   },
 };

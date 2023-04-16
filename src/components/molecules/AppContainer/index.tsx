@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { KeyboardAvoidingView, ScrollView, ViewStyle } from 'react-native';
 import { BaseView } from 'components/atoms/BaseView';
-import { getStatusBarHeight } from 'core/helpers/IPhoneXHelper';
 import { UIConst } from 'consts/UIConst';
 import { styles } from './styles';
 
@@ -22,15 +21,16 @@ const AppContainer = ({
   scrollEnabled = true,
   testID,
 }: Props): ReactElement => {
-  const statusBarHeight = getStatusBarHeight(true);
-
-  const styleBase = { paddingTop: isSafeView ? statusBarHeight : 0, flex: 1 };
+  const styleBase = {
+    paddingTop: isSafeView ? UIConst.STATUS_BAR_HEIGHT : 0,
+    flex: 1,
+  };
   const CustomView = scrollEnabled ? ScrollView : BaseView;
 
   return (
     <CustomView
       contentContainerStyle={styles.styleGrow}
-      style={[styles.container, style]}
+      style={{ ...styles.container, ...style }}
       scrollEnabled={scrollEnabled}
       testID={testID}
       keyboardShouldPersistTaps="never">
