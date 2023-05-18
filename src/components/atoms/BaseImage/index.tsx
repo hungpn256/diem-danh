@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
+import { Image } from 'react-native';
 import {
-  Image,
-  ImageResizeMode,
-  ImageSourcePropType,
-  ImageStyle,
-} from 'react-native';
+  TypeImageResizeMode,
+  TypeImageSourceProp,
+  TypeImageStyle,
+} from 'types/Common';
 
 type Props = {
-  source: ImageSourcePropType;
-  style?: ImageStyle;
-  resizeMode?: ImageResizeMode;
+  source: TypeImageSourceProp;
+  style?: TypeImageStyle;
+  resizeMode?: TypeImageResizeMode;
   blurRadius?: number;
 };
 

@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react';
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { TypeViewStyle } from 'types/Common';
 
 type Props = {
   children?: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
+  style?: TypeViewStyle;
   onPress: () => void;
   disabled?: boolean;
 };

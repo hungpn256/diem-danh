@@ -12,7 +12,7 @@ const Splash = (): ReactElement => {
   };
 
   return (
-    <BaseView style={{ flex: 1, justifyContent: 'center' }}>
+    <BaseView>
       <BaseText onPress={onPress}>{t('home.home')}</BaseText>
     </BaseView>
   );

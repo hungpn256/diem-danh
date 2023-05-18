@@ -12,6 +12,7 @@ module.exports = {
     'navigation/',
     'core/',
     'consts/',
+    'types/',
     '^[./]',
   ],
 };

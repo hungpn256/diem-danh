@@ -1,10 +1,11 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Text, TextStyle } from 'react-native';
+import { Text } from 'react-native';
+import { TypeTextStyle } from 'types/Common';
 import { styles } from './styles';
 
 type Props = {
   children: ReactNode;
-  style?: TextStyle;
+  style?: TypeTextStyle;
   onPress?: () => void;
 };
 const BaseText = ({ children, style, onPress }: Props): ReactElement => {

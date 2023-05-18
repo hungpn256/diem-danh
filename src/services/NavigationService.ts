@@ -1,5 +1,5 @@
-import { TypeCommon } from 'types/Common';
 import { CommonActions, StackActions } from '@react-navigation/native';
+import { TypeCommon } from 'types/Common';
 
 export type Params = {
   name: string;

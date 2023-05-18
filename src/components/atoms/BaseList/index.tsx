@@ -111,4 +111,5 @@ const BaseList = forwardRef<TypeCommon, Props>(
   ),
 );
 
+BaseList.displayName = 'BaseList';
 export { BaseList };
