@@ -23,16 +23,6 @@ module.exports = {
         pattern: 'components/*',
         capture: ['family', 'elementName'],
       },
-      {
-        type: 'types',
-        pattern: 'types/*',
-        capture: ['elementName'],
-      },
-      {
-        type: 'consts',
-        pattern: 'consts/*',
-        capture: ['elementName'],
-      },
     ],
   },
   rules: {
@@ -64,6 +54,8 @@ module.exports = {
                 },
               ],
               'types',
+              'consts',
+              'context',
             ],
           },
           {
