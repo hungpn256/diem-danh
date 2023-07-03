@@ -1,5 +1,6 @@
 import { t } from 'i18next';
 import React, { ReactElement } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ImageSourcePropType } from 'react-native/types';
 import {
   BottomTabNavigationOptions,
@@ -10,6 +11,7 @@ import { Post } from 'screens/Post';
 import { Profile } from 'screens/Profile';
 import { BaseImage } from 'components/atoms/BaseImage';
 import { BaseText } from 'components/atoms/BaseText';
+import { getValue } from 'core/helpers/Object';
 import { ColorConst } from 'consts/ColorConst';
 import ImageConst from 'consts/ImageConst';
 import { ScreenConst } from 'consts/ScreenConst';
@@ -55,6 +57,8 @@ const getParams = (route: Route): Params => {
 };
 
 const MainTabBottom = (): ReactElement => {
+  const insets = useSafeAreaInsets();
+
   return (
     <>
       <Tab.Navigator
@@ -81,10 +85,12 @@ const MainTabBottom = (): ReactElement => {
           },
           tabBarActiveTintColor: ColorConst.primary,
           tabBarInactiveTintColor: ColorConst.primary,
-          tabBarActiveBackgroundColor: ColorConst.black,
-          tabBarInactiveBackgroundColor: ColorConst.black,
-          tabBarStyle: styles.tabBar,
-          tabBarLabelStyle: styles.tabBarLabel,
+          tabBarActiveBackgroundColor: ColorConst.primary,
+          tabBarInactiveBackgroundColor: ColorConst.primary,
+          tabBarStyle: {
+            ...styles.tabBar,
+            height: 60 + getValue(insets, 0, ['bottom']),
+          },
           headerShown: false,
         })}>
         <Tab.Screen name={ScreenConst.HOME_SCREEN} component={Home} />

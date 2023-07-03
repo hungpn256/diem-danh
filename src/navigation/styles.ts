@@ -2,12 +2,8 @@ import { StyleSheet } from 'react-native';
 import { ColorConst } from 'consts/ColorConst';
 
 const styles = StyleSheet.create({
-  tabBarLabel: {
-    fontSize: 12,
-    marginBottom: 10,
-  },
   tabBar: {
-    backgroundColor: ColorConst.black,
+    backgroundColor: ColorConst.primary,
   },
   iconActive: {
     width: 22,
@@ -23,10 +19,12 @@ const styles = StyleSheet.create({
     color: ColorConst.white,
     fontWeight: '500',
     fontSize: 13,
+    marginBottom: 5,
   },
   titleInActive: {
     color: ColorConst.grey,
     fontSize: 12,
+    marginBottom: 2,
   },
 });
 

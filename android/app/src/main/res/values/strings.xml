@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">base2023</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">MZGLtjBecHdCJOiScIVlfFaJykMEZxLtLXDwO</string>
 </resources>

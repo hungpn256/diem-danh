@@ -81,11 +81,18 @@ module.exports = {
             allow: [
               'react',
               [
+                'react-native',
+                {
+                  specifiers: ['AppState'],
+                },
+              ],
+              [
                 'components',
                 {
                   specifiers: ['BaseView'],
                 },
               ],
+              'react-native-code-push',
             ],
           },
         ],

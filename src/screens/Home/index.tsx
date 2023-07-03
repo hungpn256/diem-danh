@@ -8,7 +8,7 @@ const Home = (): ReactElement => {
   const { setTheme } = useTheme();
 
   return (
-    <AppContainer>
+    <AppContainer isSafeView>
       <BaseView>
         <BaseText onPress={setTheme}>dfds</BaseText>
       </BaseView>

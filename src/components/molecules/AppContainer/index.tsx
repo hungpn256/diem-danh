@@ -26,6 +26,7 @@ const AppContainer = ({
     paddingTop: isSafeView ? UIConst.STATUS_BAR_HEIGHT : 0,
     flex: 1,
   };
+
   const CustomView = scrollEnabled ? BaseScroll : BaseView;
 
   return (
