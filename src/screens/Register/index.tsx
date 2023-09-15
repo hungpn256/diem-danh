@@ -6,7 +6,7 @@ import { BaseView } from 'components/atoms/BaseView';
 import { NavigationService } from 'services/NavigationService';
 import { ScreenConst } from 'consts/ScreenConst';
 
-const Login = () => {
+const Register = () => {
   const theme = useTheme();
   return (
     <BaseView style={{ flex: 1 }}>
@@ -21,7 +21,7 @@ const Login = () => {
               color: '#fff',
             }}
           >
-            ĐĂNG NHẬP
+            ĐĂNG KÝ
           </BaseText>
         </BaseView>
         <BaseText
@@ -46,16 +46,17 @@ const Login = () => {
             mode="outlined"
             secureTextEntry
           />
+
           <Divider style={{ margin: 30 }} />
           <Button style={{ margin: 10 }} mode="contained">
-            Đăng Nhập
+            Đăng Ký
           </Button>
           <Button
             onPress={() => {
-              NavigationService.navigate(ScreenConst.REGISTER_SCREEN);
+              NavigationService.navigate(ScreenConst.LOGIN_SCREEN);
             }}
           >
-            Nếu bạn chưa có tài khoản, Hãy đăng ký
+            Nếu bạn đã có tài khoản, Hãy đăng nhập
           </Button>
         </BaseView>
       </ScrollView>
@@ -63,4 +64,4 @@ const Login = () => {
   );
 };
 
-export { Login };
+export { Register };

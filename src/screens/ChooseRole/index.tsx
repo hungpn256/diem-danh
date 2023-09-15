@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Card, Text } from 'react-native-paper';
+import { Button, Text, useTheme } from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Camera } from 'react-native-vision-camera';
 import { BaseView } from 'components/atoms/BaseView';
 import { NavigationService } from 'services/NavigationService';
@@ -13,32 +14,57 @@ const ChooseRole = () => {
     };
     requestPermission();
   }, []);
+
+  const theme = useTheme();
   return (
     <BaseView style={{ flex: 1 }}>
-      <Text variant="titleLarge" style={{ marginTop: 50, textAlign: 'center' }}>
+      <Text
+        variant="titleLarge"
+        style={{ marginTop: 150, textAlign: 'center' }}
+      >
         Hãy chọn vai trò của bạn?
       </Text>
-      <BaseView style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-        <Card
+      <BaseView
+        style={{ marginTop: 150, flexDirection: 'row', alignItems: 'center' }}
+      >
+        <Button
+          mode="outlined"
+          elevation={4}
+          icon={() => {
+            return (
+              <MaterialIcons
+                name="manage-accounts"
+                style={{ fontSize: 30, color: theme.colors.primary }}
+              />
+            );
+          }}
           style={{ flex: 1, marginHorizontal: 10 }}
+          labelStyle={{ paddingVertical: 15, fontSize: 20, fontWeight: '600' }}
           onPress={() => {
             NavigationService.navigate(ScreenConst.LOGIN_SCREEN);
           }}
         >
-          <Card.Content>
-            <Text variant="titleLarge">Quản lý</Text>
-          </Card.Content>
-        </Card>
-        <Card
+          Quản lý
+        </Button>
+        <Button
+          mode="outlined"
+          elevation={4}
+          icon={() => {
+            return (
+              <MaterialIcons
+                name="supervised-user-circle"
+                style={{ fontSize: 30, color: theme.colors.primary }}
+              />
+            );
+          }}
           style={{ flex: 1, marginHorizontal: 10 }}
+          labelStyle={{ paddingVertical: 15, fontSize: 20, fontWeight: '600' }}
           onPress={() => {
             NavigationService.navigate(ScreenConst.SCAN_QR_SCREEN);
           }}
         >
-          <Card.Content>
-            <Text variant="titleLarge">Nhân viên</Text>
-          </Card.Content>
-        </Card>
+          Nhân viên
+        </Button>
       </BaseView>
     </BaseView>
   );

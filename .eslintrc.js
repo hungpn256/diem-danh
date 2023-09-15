@@ -31,7 +31,7 @@ module.exports = {
     'boundaries/external': [
       2,
       {
-        default: 'disallow',
+        default: 'allow',
         rules: [
           {
             from: [['components', { family: 'atoms' }]],

@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { BaseKeyboardAvoiding } from 'components/atoms/BaseKeyboardAvoiding';
 import { BaseScroll } from 'components/atoms/BaseScroll';
 import { BaseView } from 'components/atoms/BaseView';
@@ -13,6 +14,9 @@ type Props = {
   styleContent?: TypeViewStyle;
   scrollEnabled?: boolean;
   testID?: string;
+  onScroll?:
+    | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void)
+    | undefined;
 };
 
 const AppContainer = ({
@@ -21,6 +25,7 @@ const AppContainer = ({
   style,
   styleContent,
   scrollEnabled = true,
+  onScroll,
 }: Props): ReactElement => {
   const styleBase = {
     paddingTop: isSafeView ? UIConst.STATUS_BAR_HEIGHT : 0,
@@ -34,10 +39,13 @@ const AppContainer = ({
       contentContainerStyle={styles.styleGrow}
       style={{ ...styles.container, ...style }}
       scrollEnabled={scrollEnabled}
-      keyboardShouldPersistTaps="never">
+      keyboardShouldPersistTaps="never"
+      onScroll={onScroll}
+    >
       <BaseKeyboardAvoiding
         style={styles.ctKeyboard}
-        behavior={UIConst.OS_IOS ? 'padding' : 'height'}>
+        behavior={UIConst.OS_IOS ? 'padding' : 'height'}
+      >
         <BaseView style={{ ...styleBase, ...styleContent }}>
           {children}
         </BaseView>

@@ -2,6 +2,8 @@ import React, { ReactElement } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ChooseRole } from 'screens/ChooseRole';
 import { Login } from 'screens/Login';
+import QRCode from 'screens/QRCode';
+import { Register } from 'screens/Register';
 import { ScanQR } from 'screens/ScanQR';
 import { Splash } from 'screens/Splash';
 import { ScreenConst } from 'consts/ScreenConst';
@@ -28,6 +30,8 @@ const AppNavigator = (): ReactElement => {
         component={ChooseRole}
       />
       <Stack.Screen name={ScreenConst.SCAN_QR_SCREEN} component={ScanQR} />
+      <Stack.Screen name={ScreenConst.REGISTER_SCREEN} component={Register} />
+      <Stack.Screen name={ScreenConst.QR_CODE_SCREEN} component={QRCode} />
     </Stack.Navigator>
   );
 };
