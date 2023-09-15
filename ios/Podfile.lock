@@ -393,8 +393,14 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.13.0):
+    - React-Core
   - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
+  - VisionCamera (3.0.0):
+    - React
+    - React-callinvoker
+    - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -460,6 +466,8 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -556,6 +564,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  VisionCamera:
+    :path: "../node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -586,7 +598,7 @@ SPEC CHECKSUMS:
   RCTTypeSafety: b6c253064466411c6810b45f66bc1e43ce0c54ba
   React: 715292db5bd46989419445a5547954b25d2090f0
   React-callinvoker: 105392d1179058585b564d35b4592fe1c46d6fba
-  React-Codegen: 706e0cd093d6c4fa1bacdcdca4449bdca5fa884c
+  React-Codegen: bddf7cc33e6ef5dd9dee4c32d3ad25169af3892c
   React-Core: e0219b9fdb688015805f9a7d17c1bbcfc5209cea
   React-CoreModules: cd238b4bb8dc8529ccc8b34ceae7267b04ce1882
   React-cxxreact: e541a9279076a4567cf20f8f0512ffd10832befd
@@ -611,8 +623,10 @@ SPEC CHECKSUMS:
   ReactCommon: 1fed1243105330aa50ad7051207b61656f5e570b
   RNDeviceInfo: 475a4c447168d0ad4c807e48ef5e0963a0f4eb1b
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNSVG: ed492aaf3af9ca01bc945f7a149d76d62e73ec82
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  VisionCamera: c4f239ef0ce8fb13937966b814f57925560f5596
   Yoga: 79dd7410de6f8ad73a77c868d3d368843f0c93e0
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

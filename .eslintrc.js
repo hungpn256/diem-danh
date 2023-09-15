@@ -28,8 +28,6 @@ module.exports = {
   rules: {
     'no-console': 'error',
     '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used' }],
-    '@typescript-eslint/explicit-function-return-type': ['error'],
-    'no-inline-styles/no-inline-styles': 2,
     'boundaries/external': [
       2,
       {

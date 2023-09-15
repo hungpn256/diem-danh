@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { PaperProvider } from 'react-native-paper';
+import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { Codepush } from 'components/organisms/Codepush';
 import { NavigationService } from 'services/NavigationService';
@@ -12,7 +13,8 @@ const App = (): ReactElement => {
     <PaperProvider>
       <ThemeProvider>
         <NavigationContainer
-          ref={(ref): void => NavigationService.setNavigator(ref)}>
+          ref={(ref): void => NavigationService.setNavigator(ref)}
+        >
           <AppNavigator />
           <Codepush />
         </NavigationContainer>

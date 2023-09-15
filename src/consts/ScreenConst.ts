@@ -4,6 +4,9 @@ const ScreenConst = {
   HOME_SCREEN: 'HomeScreen',
   PROFILE_SCREEN: 'ProfileScreen',
   POST_SCREEN: 'PostScreen',
+  LOGIN_SCREEN: 'LOGIN_SCREEN',
+  CHOOSE_ROLE_SCREEN: 'CHOOSE_ROLE_SCREEN',
+  SCAN_QR_SCREEN: 'SCAN_QR_SCREEN',
 };
 
 export { ScreenConst };

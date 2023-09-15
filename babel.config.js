@@ -9,6 +9,12 @@ module.exports = {
         alias: {},
       },
     ],
+    [
+      'react-native-reanimated/plugin',
+      {
+        globals: ['__scanCodes'],
+      },
+    ],
   ],
   env: {
     production: {
