@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AddUser } from 'screens/AddUser';
 import { ChooseRole } from 'screens/ChooseRole';
 import { Login } from 'screens/Login';
 import QRCode from 'screens/QRCode';
@@ -32,6 +33,7 @@ const AppNavigator = (): ReactElement => {
       <Stack.Screen name={ScreenConst.SCAN_QR_SCREEN} component={ScanQR} />
       <Stack.Screen name={ScreenConst.REGISTER_SCREEN} component={Register} />
       <Stack.Screen name={ScreenConst.QR_CODE_SCREEN} component={QRCode} />
+      <Stack.Screen name={ScreenConst.ADD_USER_SCREEN} component={AddUser} />
     </Stack.Navigator>
   );
 };

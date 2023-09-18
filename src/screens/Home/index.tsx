@@ -1,18 +1,55 @@
-import React, { ReactElement } from 'react';
+import axios from 'axios';
+import React, { ReactElement, useEffect, useState } from 'react';
 import {
+  FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
+  View,
 } from 'react-native';
-import { AnimatedFAB, DataTable, Searchbar } from 'react-native-paper';
+import {
+  AnimatedFAB,
+  DataTable,
+  Searchbar,
+  useTheme,
+} from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { BaseTouch } from 'components/atoms/BaseTouch';
 import { BaseView } from 'components/atoms/BaseView';
-import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
+import { NavigationService } from 'services/NavigationService';
+import { getError } from 'core/helpers/getError';
+import { ScreenConst } from 'consts/ScreenConst';
+
+export interface User {
+  _id: string;
+  name: string;
+  phoneNumber: string;
+  email: string;
+}
 
 const Home = (): ReactElement => {
   const [isExtended, setIsExtended] = React.useState(true);
-
+  const [loading, setLoading] = React.useState(false);
   const fabStyle = { right: 16 };
+  useEffect(() => {
+    getUser();
+  }, []);
+  const theme = useTheme();
+
+  const [users, setUsers] = useState<User[]>([]);
+
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get('/user/get-user-managed');
+      setUsers(res.data.users);
+    } catch (error) {
+      getError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const onScroll = ({
     nativeEvent,
   }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -34,25 +71,56 @@ const Home = (): ReactElement => {
         value={searchQuery}
         style={{ marginHorizontal: 10, marginVertical: 10 }}
       />
-      <AppContainer onScroll={onScroll} style={{ flex: 1 }}>
-        <DataTable>
-          <DataTable.Header>
-            <DataTable.Title>ID</DataTable.Title>
-            <DataTable.Title>Name</DataTable.Title>
-            <DataTable.Title>Hoạt động</DataTable.Title>
-          </DataTable.Header>
-          <DataTable.Row>
-            <DataTable.Cell>Hung</DataTable.Cell>
-            <DataTable.Cell>Hung</DataTable.Cell>
-            <DataTable.Cell>Hung</DataTable.Cell>
-          </DataTable.Row>
-        </DataTable>
-      </AppContainer>
+      <DataTable style={{ flex: 1 }}>
+        <FlatList
+          data={users}
+          refreshing={loading}
+          renderItem={({ item: user }) => {
+            return (
+              <DataTable.Row key={user._id}>
+                <DataTable.Cell style={{ flex: 3 }}>
+                  {user.email}
+                </DataTable.Cell>
+                <DataTable.Cell>{user.name}</DataTable.Cell>
+                <DataTable.Cell>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <BaseTouch onPress={() => {}}>
+                      <MaterialIcons
+                        name="edit"
+                        style={{ fontSize: 24, padding: 4 }}
+                        color={theme.colors.backdrop}
+                      />
+                    </BaseTouch>
+                    <BaseTouch onPress={() => {}}>
+                      <MaterialIcons
+                        name="delete"
+                        style={{ fontSize: 24, padding: 4 }}
+                        color={theme.colors.error}
+                      />
+                    </BaseTouch>
+                  </View>
+                </DataTable.Cell>
+              </DataTable.Row>
+            );
+          }}
+          onRefresh={getUser}
+          keyExtractor={user => user._id}
+          onScroll={onScroll}
+          style={{ flex: 1 }}
+          ListHeaderComponent={() => (
+            <DataTable.Header>
+              <DataTable.Title style={{ flex: 3 }}>Email</DataTable.Title>
+              <DataTable.Title>Name</DataTable.Title>
+              <DataTable.Title>Hoạt động</DataTable.Title>
+            </DataTable.Header>
+          )}
+        />
+      </DataTable>
       <AnimatedFAB
         icon={'plus'}
         label={'Thêm mới'}
         extended={isExtended}
-        onPress={() => console.log('Pressed')}
+        onPress={() => NavigationService.navigate(ScreenConst.ADD_USER_SCREEN)}
         visible={true}
         animateFrom={'right'}
         iconMode={'dynamic'}

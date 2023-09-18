@@ -5,32 +5,24 @@ import { Controller, useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
-import { BaseText } from 'components/atoms/BaseText';
+import { regexPhoneNumber } from 'screens/Register';
 import { BaseView } from 'components/atoms/BaseView';
+import { AppContainer } from 'components/molecules/AppContainer';
+import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
-import { ScreenConst } from 'consts/ScreenConst';
-
-export const regexPassword =
-  /^(?=.*\d)(?=.*[a-zA-Z])[A-Za-z0-9!#\$%&'*+\-/=?\^_`{\|}~@]{6,}$/;
-
-export const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
 export const schemaRegister = yup.object().shape({
   name: yup.string().required('Bắt buộc nhập'),
   email: yup.string().email('Nhập đúng định dạng email'),
-  password: yup
-    .string()
-    .required('Bắt buộc nhập')
-    .matches(regexPassword, 'Mật khẩu cần ít nhất 6 ký tự bao gồm chữ và số'),
   phoneNumber: yup
     .string()
     .required('Bắt buộc nhập')
     .matches(regexPhoneNumber, 'Điền đúng định dạng số điện thoại'),
 });
 
-const Register = () => {
+export const AddUser = () => {
   const theme = useTheme();
   const {
     control,
@@ -41,45 +33,22 @@ const Register = () => {
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
-      await axios.post('/user/register', {
+      await axios.post('/user/add-user', {
         ...data,
-        role: 'admin',
+        role: 'user',
       });
-      NavigationService.navigate(ScreenConst.LOGIN_SCREEN);
+      NavigationService.back();
     } catch (error) {
       getError(error);
     } finally {
       LoadingView.hide();
     }
   };
-
   return (
-    <BaseView style={{ flex: 1 }}>
+    <AppContainer scrollEnabled={false}>
+      <Header title="Thêm nhân viên" />
       <ScrollView>
-        <BaseView style={{ backgroundColor: theme.colors.primary }}>
-          <BaseText
-            style={{
-              lineHeight: 250,
-              fontSize: 30,
-              fontWeight: '600',
-              paddingLeft: 10,
-              color: '#fff',
-            }}
-          >
-            ĐĂNG KÝ
-          </BaseText>
-        </BaseView>
-        <BaseText
-          style={{
-            textAlign: 'center',
-            marginTop: 40,
-            fontWeight: '600',
-            fontSize: 16,
-          }}
-        >
-          Nhập tài khoản và mật khẩu
-        </BaseText>
-        <BaseView style={{ padding: 10 }}>
+        <BaseView style={{ padding: 10, paddingVertical: 50 }}>
           <Controller
             control={control}
             rules={{
@@ -149,31 +118,7 @@ const Register = () => {
               {errors['phoneNumber'].message}
             </Text>
           )}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={{ marginVertical: 10 }}
-                label="Password"
-                mode="outlined"
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                keyboardType="name-phone-pad"
-              />
-            )}
-            name="password"
-          />
-          {errors['password'] && (
-            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
-              {errors['password'].message}
-            </Text>
-          )}
-          <Divider style={{ margin: 30 }} />
+          <Divider style={{ margin: 50 }} />
           <Button
             style={{ margin: 10 }}
             mode="contained"
@@ -182,17 +127,8 @@ const Register = () => {
           >
             Đăng Ký
           </Button>
-          <Button
-            onPress={() => {
-              NavigationService.navigate(ScreenConst.LOGIN_SCREEN);
-            }}
-          >
-            Nếu bạn đã có tài khoản, Hãy đăng nhập
-          </Button>
         </BaseView>
       </ScrollView>
-    </BaseView>
+    </AppContainer>
   );
 };
-
-export { Register };
