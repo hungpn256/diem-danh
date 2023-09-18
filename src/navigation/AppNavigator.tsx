@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigator = (): ReactElement => {
   return (
     <Stack.Navigator
-      initialRouteName={ScreenConst.CHOOSE_ROLE_SCREEN}
+      initialRouteName={ScreenConst.SPLASH_SCREEN}
       screenOptions={{
         headerShown: false,
       }}

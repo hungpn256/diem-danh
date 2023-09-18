@@ -41,6 +41,7 @@ const AppContainer = ({
       scrollEnabled={scrollEnabled}
       keyboardShouldPersistTaps="never"
       onScroll={onScroll}
+      scrollEventThrottle={16}
     >
       <BaseKeyboardAvoiding
         style={styles.ctKeyboard}

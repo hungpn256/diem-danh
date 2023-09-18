@@ -4,9 +4,10 @@ import {
   NativeSyntheticEvent,
   StyleSheet,
 } from 'react-native';
-import { AnimatedFAB, Appbar, DataTable, Searchbar } from 'react-native-paper';
+import { AnimatedFAB, DataTable, Searchbar } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
 import { AppContainer } from 'components/molecules/AppContainer';
+import Header from 'components/organisms/Header';
 
 const Home = (): ReactElement => {
   const [isExtended, setIsExtended] = React.useState(true);
@@ -25,17 +26,15 @@ const Home = (): ReactElement => {
   const onChangeSearch = (query: string) => setSearchQuery(query);
 
   return (
-    <BaseView style={{ flex: 1 }}>
-      <Appbar.Header>
-        <Appbar.Content title="Danh sách người dùng" />
-      </Appbar.Header>
+    <BaseView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <Header title="Danh sách nhân viên" />
+      <Searchbar
+        placeholder="Search"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        style={{ marginHorizontal: 10, marginVertical: 10 }}
+      />
       <AppContainer onScroll={onScroll} style={{ flex: 1 }}>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          style={{ marginHorizontal: 10, marginBottom: 10 }}
-        />
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>ID</DataTable.Title>

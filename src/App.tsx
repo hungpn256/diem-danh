@@ -17,9 +17,8 @@ const App = (): ReactElement => {
     axios.defaults.baseURL = 'http://localhost:1200/api';
     axios.interceptors.request.use(
       async config => {
-        config.headers.Authorization = await StorageService.get(
-          StorageConst.TOKEN,
-        );
+        const token = await StorageService.get(StorageConst.TOKEN);
+        config.headers.Authorization = token;
         return config;
       },
       function (error) {
