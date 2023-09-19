@@ -82,22 +82,29 @@ const Home = (): ReactElement => {
                   {user.email}
                 </DataTable.Cell>
                 <DataTable.Cell>{user.name}</DataTable.Cell>
-                <DataTable.Cell>
+                <DataTable.Cell numeric>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <BaseTouch onPress={() => {}}>
+                    <BaseTouch
+                      onPress={() => {
+                        NavigationService.navigate(
+                          ScreenConst.ADD_USER_SCREEN,
+                          { user, getUser },
+                        );
+                      }}
+                    >
                       <MaterialIcons
                         name="edit"
                         style={{ fontSize: 24, padding: 4 }}
                         color={theme.colors.backdrop}
                       />
                     </BaseTouch>
-                    <BaseTouch onPress={() => {}}>
+                    {/* <BaseTouch onPress={() => {}}>
                       <MaterialIcons
                         name="delete"
                         style={{ fontSize: 24, padding: 4 }}
                         color={theme.colors.error}
                       />
-                    </BaseTouch>
+                    </BaseTouch> */}
                   </View>
                 </DataTable.Cell>
               </DataTable.Row>
@@ -111,7 +118,7 @@ const Home = (): ReactElement => {
             <DataTable.Header>
               <DataTable.Title style={{ flex: 3 }}>Email</DataTable.Title>
               <DataTable.Title>Name</DataTable.Title>
-              <DataTable.Title>Hoạt động</DataTable.Title>
+              <DataTable.Title>Hành động</DataTable.Title>
             </DataTable.Header>
           )}
         />
@@ -120,7 +127,9 @@ const Home = (): ReactElement => {
         icon={'plus'}
         label={'Thêm mới'}
         extended={isExtended}
-        onPress={() => NavigationService.navigate(ScreenConst.ADD_USER_SCREEN)}
+        onPress={() =>
+          NavigationService.navigate(ScreenConst.ADD_USER_SCREEN, { getUser })
+        }
         visible={true}
         animateFrom={'right'}
         iconMode={'dynamic'}

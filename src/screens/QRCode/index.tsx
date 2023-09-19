@@ -1,18 +1,39 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar, Surface, Text, useTheme } from 'react-native-paper';
 import QRCodeSVG from 'react-native-qrcode-svg';
+import { useRoute } from '@react-navigation/native';
+import { User } from 'screens/Home';
 import { BaseView } from 'components/atoms/BaseView';
 import { AppContainer } from 'components/molecules/AppContainer';
+import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
+import { getError } from 'core/helpers/getError';
 import { UIConst } from 'consts/UIConst';
 
 export default function QRCode() {
-  const data = {
-    id: '1233',
-    username: 'kkk',
-  };
+  const [data, setData] = useState('');
   const theme = useTheme();
+  const params = useRoute().params as any;
+  const user = params?.user as User;
+  useEffect(() => {
+    const createPassword = async () => {
+      try {
+        LoadingView.show();
+        const res = await axios.post('/user/create-password', {
+          email: user.email,
+        });
+        setData(JSON.stringify(res.data));
+      } catch (error) {
+        getError(error);
+      } finally {
+        LoadingView.hide();
+      }
+    };
+    createPassword();
+  }, []);
+
   return (
     <BaseView style={{ flex: 1 }}>
       <Appbar.Header>
@@ -35,7 +56,7 @@ export default function QRCode() {
               Định danh người dùng
             </Text>
           </BaseView>
-          <QRCodeSVG value={JSON.stringify(data)} size={UIConst.WIDTH / 2} />
+          <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />
           <Text style={{ marginVertical: 10 }} variant="bodyLarge">
             Quét mã để đăng nhập
           </Text>

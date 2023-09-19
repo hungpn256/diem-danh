@@ -7,15 +7,7 @@ type Props = {
   style?: TypeViewStyle;
 };
 const BaseView = ({ children, style }: Props): ReactElement => {
-  return (
-    <View
-      style={{
-        ...style,
-      }}
-    >
-      {children}
-    </View>
-  );
+  return <View style={style}>{children}</View>;
 };
 
 export { BaseView };

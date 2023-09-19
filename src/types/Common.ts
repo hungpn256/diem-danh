@@ -8,9 +8,10 @@ import {
   ImageStyle,
   ImageResizeMode,
   TextStyle,
+  StyleProp,
 } from 'react-native';
 
-export type TypeViewStyle = ViewStyle;
+export type TypeViewStyle = StyleProp<ViewStyle>;
 export type TypeMomentumScrollEnd = NativeSyntheticEvent<NativeScrollEvent>;
 export type TypeElement = ReactElement;
 export type TypeImageSourceProp = ImageSourcePropType;

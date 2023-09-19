@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useRef } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import {
-  Camera,
-  useCameraDevices,
-  useFrameProcessor,
-} from 'react-native-vision-camera';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { BarcodeFormat, useScanBarcodes } from 'vision-camera-code-scanner';
 import { BaseView } from 'components/atoms/BaseView';
+import LoadingView from 'components/organisms/LoadingView';
+import { NavigationService } from 'services/NavigationService';
+import { StorageService } from 'services/StorageService';
+import { getError } from 'core/helpers/getError';
+import { ScreenConst } from 'consts/ScreenConst';
+import { StorageConst } from 'consts/StorageConst';
 
 const ScanQR = () => {
   useEffect(() => {
@@ -23,6 +26,35 @@ const ScanQR = () => {
   const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
     checkInverted: true,
   });
+
+  const loadingRef = useRef<boolean>();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        LoadingView.show();
+        loadingRef.current = true;
+        if (barcodes?.[0]?.displayValue) {
+          const data = JSON.parse(barcodes?.[0]?.displayValue);
+          const res = await axios.post('/user/login', {
+            email: data.email,
+            password: data.password,
+          });
+          const token = res.data.token;
+          await StorageService.set(StorageConst.TOKEN, token);
+          NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+        }
+      } catch (error) {
+        getError(error);
+      } finally {
+        loadingRef.current = false;
+        LoadingView.hide();
+      }
+    };
+    if (!loadingRef.current) {
+      getUser();
+    }
+  }, [barcodes?.[0]?.displayValue]);
 
   const devices = useCameraDevices();
   const device = devices.back;

@@ -17,6 +17,8 @@ const Splash = (): ReactElement => {
         if (token) {
           await axios.get('/user/profile');
           NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+        } else {
+          NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);
         }
       } catch (err) {
         NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);

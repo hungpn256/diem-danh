@@ -14,7 +14,7 @@ import { ThemeProvider } from 'context/Theme';
 
 const App = (): ReactElement => {
   useEffect(() => {
-    axios.defaults.baseURL = 'http://localhost:1200/api';
+    axios.defaults.baseURL = 'https://diem-danh-be.onrender.com/api';
     axios.interceptors.request.use(
       async config => {
         const token = await StorageService.get(StorageConst.TOKEN);
