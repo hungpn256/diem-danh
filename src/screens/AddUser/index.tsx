@@ -180,7 +180,7 @@ export const AddUser = () => {
               />
             )}
             name="currentSalary"
-            defaultValue={user?.currentSalary}
+            defaultValue={user?.currentSalary || 0}
           />
           {errors['currentSalary'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
