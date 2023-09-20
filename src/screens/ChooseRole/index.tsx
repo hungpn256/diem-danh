@@ -5,6 +5,7 @@ import { Camera } from 'react-native-vision-camera';
 import { BaseView } from 'components/atoms/BaseView';
 import { NavigationService } from 'services/NavigationService';
 import { ScreenConst } from 'consts/ScreenConst';
+import { UIConst } from 'consts/UIConst';
 
 const ChooseRole = () => {
   useEffect(() => {
@@ -25,10 +26,14 @@ const ChooseRole = () => {
         Hãy chọn vai trò của bạn?
       </Text>
       <BaseView
-        style={{ marginTop: 150, flexDirection: 'row', alignItems: 'center' }}
+        style={{
+          marginTop: Math.max(UIConst.HEIGHT / 2 - 200, 100),
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
       >
         <Button
-          mode="outlined"
+          mode="elevated"
           elevation={4}
           icon={() => {
             return (
@@ -47,7 +52,7 @@ const ChooseRole = () => {
           Quản lý
         </Button>
         <Button
-          mode="outlined"
+          mode="elevated"
           elevation={4}
           icon={() => {
             return (

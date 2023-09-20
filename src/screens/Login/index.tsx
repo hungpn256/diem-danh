@@ -14,6 +14,7 @@ import { StorageService } from 'services/StorageService';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
 import { StorageConst } from 'consts/StorageConst';
+import { useAppInfo } from 'context/AppInfo';
 
 const schema = yup.object().shape({
   email: yup.string().email('Nhập đúng định dạng email'),
@@ -30,12 +31,14 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+  const { setUser } = useAppInfo();
 
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
       const res = await axios.post('/user/login', data);
       const token = res.data.token;
+      setUser(res.data?.user);
       await StorageService.set(StorageConst.TOKEN, token);
       NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
     } catch (error) {

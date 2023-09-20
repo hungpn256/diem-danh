@@ -12,6 +12,7 @@ import { StorageService } from 'services/StorageService';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
 import { StorageConst } from 'consts/StorageConst';
+import { useAppInfo } from 'context/AppInfo';
 
 const ScanQR = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const ScanQR = () => {
   });
 
   const loadingRef = useRef<boolean>();
+  const { setUser } = useAppInfo();
 
   useEffect(() => {
     const getUser = async () => {
@@ -44,6 +46,7 @@ const ScanQR = () => {
             deviceName: await DeviceInfo.getDeviceName(),
           });
           const token = res.data.token;
+          setUser(res.data?.user);
           await StorageService.set(StorageConst.TOKEN, token);
           NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
         }

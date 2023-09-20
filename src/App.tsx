@@ -10,11 +10,16 @@ import { StorageService } from 'services/StorageService';
 import { AppNavigator } from 'navigation/AppNavigator';
 import 'core/i18n';
 import { StorageConst } from 'consts/StorageConst';
+import { AppInfoProvider } from 'context/AppInfo';
 import { ThemeProvider } from 'context/Theme';
 
 const App = (): ReactElement => {
   useEffect(() => {
-    axios.defaults.baseURL = 'https://diem-danh-be.onrender.com/api';
+    const server = false
+      ? 'https://diem-danh-be.onrender.com/api'
+      : 'http://localhost:1200/api';
+
+    axios.defaults.baseURL = server;
     axios.interceptors.request.use(
       async config => {
         const token = await StorageService.get(StorageConst.TOKEN);
@@ -28,14 +33,16 @@ const App = (): ReactElement => {
   }, []);
   return (
     <PaperProvider>
-      <ThemeProvider>
-        <NavigationContainer
-          ref={(ref): void => NavigationService.setNavigator(ref)}
-        >
-          <AppNavigator />
-          <Codepush />
-        </NavigationContainer>
-      </ThemeProvider>
+      <AppInfoProvider>
+        <ThemeProvider>
+          <NavigationContainer
+            ref={(ref): void => NavigationService.setNavigator(ref)}
+          >
+            <AppNavigator />
+            <Codepush />
+          </NavigationContainer>
+        </ThemeProvider>
+      </AppInfoProvider>
       <LoadingView />
     </PaperProvider>
   );

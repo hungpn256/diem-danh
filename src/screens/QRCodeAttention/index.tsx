@@ -3,36 +3,55 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Surface, Text, useTheme } from 'react-native-paper';
 import QRCodeSVG from 'react-native-qrcode-svg';
-import { useRoute } from '@react-navigation/native';
-import { User } from 'screens/Home';
 import { BaseView } from 'components/atoms/BaseView';
 import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { getError } from 'core/helpers/getError';
 import { UIConst } from 'consts/UIConst';
+import { useAppInfo } from 'context/AppInfo';
 
-export default function QRCode() {
+export default function QRCodeAttention() {
   const [data, setData] = useState('');
   const theme = useTheme();
-  const params = useRoute().params as any;
-  const user = params?.user as User;
+  const user = useAppInfo();
+  const [timeCheckIn, setTimeCheckIn] = useState(30);
+
   useEffect(() => {
-    const createPassword = async () => {
-      try {
-        LoadingView.show();
-        const res = await axios.post('/user/create-password', {
-          email: user.email,
-        });
-        setData(JSON.stringify(res.data));
-      } catch (error) {
-        getError(error);
-      } finally {
-        LoadingView.hide();
-      }
-    };
-    createPassword();
+    createTokenCheckin();
   }, []);
+
+  const createTokenCheckin = async () => {
+    try {
+      LoadingView.show();
+      const res = await axios.post('/attendance/create-token');
+      setData(JSON.stringify({ ...res.data, userManager: user._id }));
+      setTimeCheckIn(30);
+    } catch (error) {
+      getError(error);
+    } finally {
+      LoadingView.hide();
+    }
+  };
+  useEffect(() => {
+    if (timeCheckIn === 0) {
+      createTokenCheckin();
+    }
+  }, [timeCheckIn]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeCheckIn(time => {
+        if (time > 0) {
+          return --time;
+        }
+        return time;
+      });
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [data]);
 
   return (
     <BaseView style={{ flex: 1 }}>
@@ -50,12 +69,12 @@ export default function QRCode() {
             }}
           >
             <Text style={{ color: '#fff', fontSize: 20, fontWeight: '600' }}>
-              Định danh người dùng
+              Chấm công
             </Text>
           </BaseView>
           {data && <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />}
           <Text style={{ marginVertical: 10 }} variant="bodyLarge">
-            Quét mã để đăng nhập
+            Quét mã để chấm công: {timeCheckIn}s
           </Text>
         </Surface>
       </AppContainer>

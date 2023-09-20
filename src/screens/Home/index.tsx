@@ -20,6 +20,7 @@ import Header from 'components/organisms/Header';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
+import { useAppInfo } from 'context/AppInfo';
 
 export interface User {
   _id: string;

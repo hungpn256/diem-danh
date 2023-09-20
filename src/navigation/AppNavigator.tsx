@@ -4,6 +4,7 @@ import { AddUser } from 'screens/AddUser';
 import { ChooseRole } from 'screens/ChooseRole';
 import { Login } from 'screens/Login';
 import QRCode from 'screens/QRCode';
+import QRCodeAttention from 'screens/QRCodeAttention';
 import { Register } from 'screens/Register';
 import { ScanQR } from 'screens/ScanQR';
 import { Splash } from 'screens/Splash';
@@ -34,6 +35,10 @@ const AppNavigator = (): ReactElement => {
       <Stack.Screen name={ScreenConst.REGISTER_SCREEN} component={Register} />
       <Stack.Screen name={ScreenConst.QR_CODE_SCREEN} component={QRCode} />
       <Stack.Screen name={ScreenConst.ADD_USER_SCREEN} component={AddUser} />
+      <Stack.Screen
+        name={ScreenConst.QR_CODE_ATTENTION_SCREEN}
+        component={QRCodeAttention}
+      />
     </Stack.Navigator>
   );
 };
