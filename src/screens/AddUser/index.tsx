@@ -23,6 +23,11 @@ export const schemaRegister = yup.object().shape({
     .string()
     .required('Bắt buộc nhập')
     .matches(regexPhoneNumber, 'Điền đúng định dạng số điện thoại'),
+  currentSalary: yup
+    .number()
+    .typeError('Chỉ được nhập số')
+    .required('Bắt buộc nhập')
+    .min(0, 'Lương lớn hơn 0'),
   _id: yup.string(),
 });
 
@@ -80,7 +85,6 @@ export const AddUser = () => {
                   style={{ marginVertical: 10 }}
                   label="ID"
                   mode="outlined"
-                  keyboardType="name-phone-pad"
                   disabled={isEditing}
                 />
               )}
@@ -102,7 +106,6 @@ export const AddUser = () => {
                 style={{ marginVertical: 10 }}
                 label="Email"
                 mode="outlined"
-                keyboardType="name-phone-pad"
                 disabled={isEditing}
               />
             )}
@@ -128,7 +131,6 @@ export const AddUser = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                keyboardType="name-phone-pad"
               />
             )}
             name="name"
@@ -152,7 +154,6 @@ export const AddUser = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                keyboardType="name-phone-pad"
               />
             )}
             name="phoneNumber"
@@ -161,6 +162,29 @@ export const AddUser = () => {
           {errors['phoneNumber'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
               {errors['phoneNumber'].message}
+            </Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={{ marginVertical: 10 }}
+                label="Lương"
+                mode="outlined"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={`${value}`}
+              />
+            )}
+            name="currentSalary"
+            defaultValue={user?.currentSalary}
+          />
+          {errors['currentSalary'] && (
+            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
+              {errors['currentSalary'].message}
             </Text>
           )}
           <Divider style={{ margin: 50 }} />
@@ -181,7 +205,6 @@ export const AddUser = () => {
                   user,
                 });
               }}
-              disabled={Object.keys(errors).length > 0}
             >
               Mã QR đăng nhập
             </Button>

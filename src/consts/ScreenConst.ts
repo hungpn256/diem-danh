@@ -3,7 +3,7 @@ const ScreenConst = {
   MAIN_TAB_BOTTOM_SCREEN: 'MainTabBottomScreen',
   HOME_SCREEN: 'HomeScreen',
   PROFILE_SCREEN: 'ProfileScreen',
-  POST_SCREEN: 'PostScreen',
+  SERVICE_SCREEN: 'ServiceScreen',
   LOGIN_SCREEN: 'LOGIN_SCREEN',
   REGISTER_SCREEN: 'REGISTER_SCREEN',
   CHOOSE_ROLE_SCREEN: 'CHOOSE_ROLE_SCREEN',

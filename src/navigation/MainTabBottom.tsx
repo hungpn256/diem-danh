@@ -1,15 +1,14 @@
 import { t } from 'i18next';
 import React, { ReactElement } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ImageSourcePropType } from 'react-native/types';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { Home } from 'screens/Home';
-import { Post } from 'screens/Post';
 import { Profile } from 'screens/Profile';
-import { BaseImage } from 'components/atoms/BaseImage';
+import { Service } from 'screens/Service';
 import { BaseText } from 'components/atoms/BaseText';
 import { getValue } from 'core/helpers/Object';
 import { ColorConst } from 'consts/ColorConst';
@@ -25,27 +24,45 @@ type Route = {
 };
 
 type Params = {
-  icon: ImageSourcePropType;
+  icon: ReactElement;
   title: string;
   testID?: string;
 };
 
-const getParams = (route: Route): Params => {
+const getParams = (route: Route, focused: boolean): Params => {
   switch (route.name) {
     case ScreenConst.HOME_SCREEN:
       return {
-        icon: ImageConst.home,
-        title: t('home.home'),
+        icon: (
+          <Entypo
+            size={focused ? 30 : 25}
+            color={focused ? '#fff' : '#d0d0d0'}
+            name="home"
+          />
+        ),
+        title: 'trang chủ',
       };
     case ScreenConst.PROFILE_SCREEN:
       return {
-        icon: ImageConst.profile,
-        title: t('profile.profile'),
+        icon: (
+          <Entypo
+            size={focused ? 30 : 25}
+            color={focused ? '#fff' : '#d0d0d0'}
+            name="user"
+          />
+        ),
+        title: 'Cá nhân',
       };
-    case ScreenConst.POST_SCREEN:
+    case ScreenConst.SERVICE_SCREEN:
       return {
-        icon: ImageConst.post,
-        title: t('post.post'),
+        icon: (
+          <Entypo
+            size={focused ? 30 : 25}
+            color={focused ? '#fff' : '#d0d0d0'}
+            name="500px"
+          />
+        ),
+        title: 'Dịch vụ',
       };
 
     default:
@@ -64,21 +81,17 @@ const MainTabBottom = (): ReactElement => {
       <Tab.Navigator
         screenOptions={({ route }): BottomTabNavigationOptions => ({
           tabBarIcon: ({ focused }: { focused: boolean }): ReactElement => {
-            const { icon } = getParams(route);
+            const { icon } = getParams(route, focused);
 
-            return (
-              <BaseImage
-                style={focused ? styles.iconActive : styles.iconInActive}
-                source={icon}
-              />
-            );
+            return icon;
           },
           tabBarBadgeStyle: { backgroundColor: ColorConst.primary },
           tabBarLabel: ({ focused }: { focused: boolean }): ReactElement => {
-            const { title } = getParams(route);
+            const { title } = getParams(route, focused);
             return (
               <BaseText
-                style={focused ? styles.titleActive : styles.titleInActive}>
+                style={focused ? styles.titleActive : styles.titleInActive}
+              >
                 {title}
               </BaseText>
             );
@@ -92,9 +105,10 @@ const MainTabBottom = (): ReactElement => {
             height: 60 + getValue(insets, 0, ['bottom']),
           },
           headerShown: false,
-        })}>
+        })}
+      >
         <Tab.Screen name={ScreenConst.HOME_SCREEN} component={Home} />
-        <Tab.Screen name={ScreenConst.POST_SCREEN} component={Post} />
+        <Tab.Screen name={ScreenConst.SERVICE_SCREEN} component={Service} />
         <Tab.Screen name={ScreenConst.PROFILE_SCREEN} component={Profile} />
       </Tab.Navigator>
     </>

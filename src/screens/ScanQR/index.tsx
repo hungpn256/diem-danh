@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
 import { Alert, StyleSheet } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { Appbar } from 'react-native-paper';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { BarcodeFormat, useScanBarcodes } from 'vision-camera-code-scanner';
@@ -39,15 +40,19 @@ const ScanQR = () => {
           const res = await axios.post('/user/login', {
             email: data.email,
             password: data.password,
+            deviceUniqueId: await DeviceInfo.getUniqueId(),
+            deviceName: await DeviceInfo.getDeviceName(),
           });
           const token = res.data.token;
           await StorageService.set(StorageConst.TOKEN, token);
           NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
         }
-      } catch (error) {
-        getError(error);
-      } finally {
         loadingRef.current = false;
+      } catch (error) {
+        getError(error, () => {
+          loadingRef.current = false;
+        });
+      } finally {
         LoadingView.hide();
       }
     };

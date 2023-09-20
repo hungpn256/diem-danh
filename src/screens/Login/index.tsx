@@ -48,7 +48,13 @@ const Login = () => {
   return (
     <BaseView style={{ flex: 1 }}>
       <ScrollView>
-        <BaseView style={{ backgroundColor: theme.colors.primary }}>
+        <BaseView
+          style={{
+            backgroundColor: theme.colors.primary,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+          }}
+        >
           <BaseText
             style={{
               lineHeight: 250,
@@ -85,7 +91,6 @@ const Login = () => {
                 style={{ marginVertical: 10 }}
                 label="Email"
                 mode="outlined"
-                keyboardType="name-phone-pad"
               />
             )}
             name="email"
@@ -109,7 +114,6 @@ const Login = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                keyboardType="name-phone-pad"
               />
             )}
             name="password"

@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { changeLanguage } from 'i18next';
 import React, { ReactElement, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BaseText } from 'components/atoms/BaseText';
+import { Text } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
 import { NavigationService } from 'services/NavigationService';
 import { StorageService } from 'services/StorageService';
@@ -26,7 +24,13 @@ const Splash = (): ReactElement => {
     };
     getToken();
   }, []);
-  return <BaseView></BaseView>;
+  return (
+    <BaseView
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Text variant="displayLarge">Thằng Chiến ngu</Text>
+    </BaseView>
+  );
 };
 
 export { Splash };

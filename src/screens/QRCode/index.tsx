@@ -56,7 +56,7 @@ export default function QRCode() {
               Định danh người dùng
             </Text>
           </BaseView>
-          <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />
+          {data && <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />}
           <Text style={{ marginVertical: 10 }} variant="bodyLarge">
             Quét mã để đăng nhập
           </Text>

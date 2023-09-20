@@ -26,6 +26,7 @@ export interface User {
   name: string;
   phoneNumber: string;
   email: string;
+  currentSalary?: number;
 }
 
 const Home = (): ReactElement => {

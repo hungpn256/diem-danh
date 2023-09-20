@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   titleActive: {
     color: ColorConst.white,
     fontWeight: '500',
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 5,
   },
   titleInActive: {
