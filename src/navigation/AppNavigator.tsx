@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigator = (): ReactElement => {
   return (
     <Stack.Navigator
-      initialRouteName={ScreenConst.LOGIN_SCREEN}
+      initialRouteName={ScreenConst.CHOOSE_ROLE_SCREEN}
       screenOptions={{
         headerShown: false,
       }}
