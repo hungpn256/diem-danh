@@ -8,6 +8,7 @@ import QRCode from 'screens/QRCode';
 import QRCodeAttention from 'screens/QRCodeAttention';
 import { Register } from 'screens/Register';
 import { ScanQR } from 'screens/ScanQR';
+import { ScanQRAttention } from 'screens/ScanQRAttention';
 import { Splash } from 'screens/Splash';
 import { ScreenConst } from 'consts/ScreenConst';
 import { MainTabBottom } from './MainTabBottom';
@@ -43,6 +44,10 @@ const AppNavigator = (): ReactElement => {
       <Stack.Screen
         name={ScreenConst.ADDITIONAL_WORK_SCREEN}
         component={AdditionalWork}
+      />
+      <Stack.Screen
+        name={ScreenConst.ADDITIONAL_SCAN_QR_SCREEN}
+        component={ScanQRAttention}
       />
     </Stack.Navigator>
   );
