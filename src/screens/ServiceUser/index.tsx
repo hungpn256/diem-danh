@@ -22,12 +22,22 @@ const ServiceUser = (): ReactElement => {
           Chấm công
         </Button>
         <Button
+          onPress={() => {
+            NavigationService.navigate(ScreenConst.ADDITIONAL_WORK_SCREEN, {
+              isAdditionalWork: true,
+            });
+          }}
           mode="elevated"
           style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
         >
           Bổ sung công
         </Button>
         <Button
+          onPress={() => {
+            NavigationService.navigate(ScreenConst.ADDITIONAL_WORK_SCREEN, {
+              isAdditionalWork: false,
+            });
+          }}
           mode="elevated"
           style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
         >

@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import moment from 'moment';
 import React, { useRef, useState } from 'react';
@@ -14,8 +15,6 @@ import {
 } from 'react-native-paper';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native';
-import { User } from 'screens/Home';
-import { regexPhoneNumber } from 'screens/Register';
 import { BaseView } from 'components/atoms/BaseView';
 import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
@@ -25,17 +24,8 @@ import { getError } from 'core/helpers/getError';
 
 export const schemaRegister = yup.object().shape({
   reason: yup.string().required('Bắt buộc nhập'),
-  email: yup.string().email('Nhập đúng định dạng email'),
-  phoneNumber: yup
-    .string()
-    .required('Bắt buộc nhập')
-    .matches(regexPhoneNumber, 'Điền đúng định dạng số điện thoại'),
-  currentSalary: yup
-    .number()
-    .typeError('Chỉ được nhập số')
-    .required('Bắt buộc nhập')
-    .min(0, 'Lương lớn hơn 0'),
-  _id: yup.string(),
+  date: yup.string().required('Bắt buộc nhập'),
+  time: yup.string().required('Bắt buộc nhập'),
 });
 
 export const AdditionalWork = () => {
@@ -50,28 +40,22 @@ export const AdditionalWork = () => {
     formState: { errors },
     setValue,
   } = useForm({
-    // resolver: yupResolver(schemaRegister),
+    resolver: yupResolver(schemaRegister),
   });
   const params = useRoute().params as any;
-  const user = params?.user as User;
   const getUser = params?.getUser as any;
-  const isAdditionalWork = !!params?.user;
+  const isAdditionalWork = !!params?.isAdditionalWork;
 
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
-      if (!isEditing) {
-        await axios.post('/user/add-user', {
-          ...data,
-          role: 'user',
-        });
-        await getUser();
-      } else {
-        await axios.put('/user/' + user._id, {
-          ...data,
-        });
-        await getUser();
-      }
+      await axios.post('/attendance/additional-work', {
+        ...data,
+        type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
+        role: 'user',
+      });
+      await getUser();
+
       NavigationService.back();
     } catch (error) {
       getError(error);
@@ -142,9 +126,9 @@ export const AdditionalWork = () => {
             )}
             name="time"
           />
-          {errors['name'] && (
+          {errors['time'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
-              {errors['name'].message}
+              {errors['time'].message}
             </Text>
           )}
 
@@ -166,7 +150,6 @@ export const AdditionalWork = () => {
               />
             )}
             name="reason"
-            defaultValue={user?.reason}
           />
           {errors['reason'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
