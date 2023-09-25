@@ -43,7 +43,6 @@ export const AdditionalWork = () => {
     resolver: yupResolver(schemaRegister),
   });
   const params = useRoute().params as any;
-  const getUser = params?.getUser as any;
   const isAdditionalWork = !!params?.isAdditionalWork;
 
   const onSubmit = async (data: any) => {
@@ -52,9 +51,7 @@ export const AdditionalWork = () => {
       await axios.post('/attendance/additional-work', {
         ...data,
         type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
-        role: 'user',
       });
-      await getUser();
 
       NavigationService.back();
     } catch (error) {
