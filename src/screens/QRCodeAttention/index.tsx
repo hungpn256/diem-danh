@@ -14,7 +14,7 @@ import { useAppInfo } from 'context/AppInfo';
 export default function QRCodeAttention() {
   const [data, setData] = useState('');
   const theme = useTheme();
-  const user = useAppInfo();
+  const { user } = useAppInfo();
   const [timeCheckIn, setTimeCheckIn] = useState(30);
 
   useEffect(() => {
