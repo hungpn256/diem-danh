@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { Appbar } from 'react-native-paper';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { BarcodeFormat, useScanBarcodes } from 'vision-camera-code-scanner';
 import { BaseView } from 'components/atoms/BaseView';
+import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { StorageService } from 'services/StorageService';
@@ -69,10 +69,7 @@ const ScanQR = () => {
   if (device == null) return <></>;
   return (
     <BaseView style={StyleSheet.absoluteFill}>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
-        <Appbar.Content title="Quét mã đăng nhập" />
-      </Appbar.Header>
+      <Header title="Quét mã đăng nhập" />
       <Camera
         style={{ flex: 1 }}
         device={device}

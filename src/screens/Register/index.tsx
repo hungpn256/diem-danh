@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 import { BaseText } from 'components/atoms/BaseText';
 import { BaseView } from 'components/atoms/BaseView';
+import { AppContainer } from 'components/molecules/AppContainer';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
@@ -55,7 +55,7 @@ const Register = () => {
 
   return (
     <BaseView style={{ flex: 1 }}>
-      <ScrollView>
+      <AppContainer isKeyboardAvoidingView>
         <BaseView
           style={{
             backgroundColor: theme.colors.primary,
@@ -192,7 +192,7 @@ const Register = () => {
             Nếu bạn đã có tài khoản, Hãy đăng nhập
           </Button>
         </BaseView>
-      </ScrollView>
+      </AppContainer>
     </BaseView>
   );
 };

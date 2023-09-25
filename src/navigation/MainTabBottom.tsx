@@ -7,13 +7,16 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { Home } from 'screens/Home';
+import { HomeUser } from 'screens/HomeUser';
 import { Profile } from 'screens/Profile';
 import { Service } from 'screens/Service';
+import { ServiceUser } from 'screens/ServiceUser';
 import { BaseText } from 'components/atoms/BaseText';
 import { getValue } from 'core/helpers/Object';
 import { ColorConst } from 'consts/ColorConst';
 import ImageConst from 'consts/ImageConst';
 import { ScreenConst } from 'consts/ScreenConst';
+import { useAppInfo } from 'context/AppInfo';
 import { styles } from './styles';
 
 const Tab = createBottomTabNavigator();
@@ -74,6 +77,7 @@ const getParams = (route: Route, focused: boolean): Params => {
 };
 
 const MainTabBottom = (): ReactElement => {
+  const { user } = useAppInfo();
   const insets = useSafeAreaInsets();
 
   return (
@@ -107,8 +111,14 @@ const MainTabBottom = (): ReactElement => {
           headerShown: false,
         })}
       >
-        <Tab.Screen name={ScreenConst.HOME_SCREEN} component={Home} />
-        <Tab.Screen name={ScreenConst.SERVICE_SCREEN} component={Service} />
+        <Tab.Screen
+          name={ScreenConst.HOME_SCREEN}
+          component={user.role === 'admin' ? Home : HomeUser}
+        />
+        <Tab.Screen
+          name={ScreenConst.SERVICE_SCREEN}
+          component={user.role === 'admin' ? Service : ServiceUser}
+        />
         <Tab.Screen name={ScreenConst.PROFILE_SCREEN} component={Profile} />
       </Tab.Navigator>
     </>

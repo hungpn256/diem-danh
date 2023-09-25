@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 import {
   FlatList,
   NativeScrollEvent,
@@ -7,12 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {
-  AnimatedFAB,
-  DataTable,
-  Searchbar,
-  useTheme,
-} from 'react-native-paper';
+import { AnimatedFAB, DataTable, useTheme } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { BaseTouch } from 'components/atoms/BaseTouch';
 import { BaseView } from 'components/atoms/BaseView';
@@ -29,31 +23,15 @@ export interface User {
   currentSalary?: number;
 }
 
-const Home = (): ReactElement => {
+const HomeUser = (): ReactElement => {
   const [isExtended, setIsExtended] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const fabStyle = { right: 16 };
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      getUser(searchQuery);
-    }, 500);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [searchQuery]);
   const theme = useTheme();
 
-  const [users, setUsers] = useState<User[]>([]);
-
-  const getUser = async (txtSearch: string) => {
+  const getUser = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('/user/get-user-managed', {
-        params: { txtSearch },
-      });
-      setUsers(res.data.users);
     } catch (error) {
       getError(error);
     } finally {
@@ -70,27 +48,17 @@ const Home = (): ReactElement => {
     setIsExtended(currentScrollPosition <= 0);
   };
 
-  const onChangeSearch = (query: string) => setSearchQuery(query);
-
   return (
     <BaseView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header title="Danh sách nhân viên" />
-      <Searchbar
-        placeholder="Search"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        style={{ marginHorizontal: 10, marginVertical: 10 }}
-      />
+      <Header title="Chấm công chi tiết" />
       <DataTable style={{ flex: 1 }}>
         <FlatList
-          data={users}
+          data={[]}
           refreshing={loading}
           renderItem={({ item: user }) => {
             return (
-              <DataTable.Row key={user._id}>
-                <DataTable.Cell style={{ flex: 3 }}>
-                  {user.email}
-                </DataTable.Cell>
+              <DataTable.Row>
+                <DataTable.Cell>{user.email}</DataTable.Cell>
                 <DataTable.Cell>{user.name}</DataTable.Cell>
                 <DataTable.Cell numeric>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -108,27 +76,21 @@ const Home = (): ReactElement => {
                         color={theme.colors.backdrop}
                       />
                     </BaseTouch>
-                    {/* <BaseTouch onPress={() => {}}>
-                      <MaterialIcons
-                        name="delete"
-                        style={{ fontSize: 24, padding: 4 }}
-                        color={theme.colors.error}
-                      />
-                    </BaseTouch> */}
                   </View>
                 </DataTable.Cell>
               </DataTable.Row>
             );
           }}
           onRefresh={getUser}
-          keyExtractor={user => user._id}
+          // keyExtractor={user => user._id}
           onScroll={onScroll}
           style={{ flex: 1 }}
           ListHeaderComponent={() => (
             <DataTable.Header>
-              <DataTable.Title style={{ flex: 3 }}>Email</DataTable.Title>
-              <DataTable.Title>Name</DataTable.Title>
-              <DataTable.Title>Hành động</DataTable.Title>
+              <DataTable.Title>Ngày</DataTable.Title>
+              <DataTable.Title>Vào</DataTable.Title>
+              <DataTable.Title>Ra</DataTable.Title>
+              <DataTable.Title>Số công</DataTable.Title>
             </DataTable.Header>
           )}
         />
@@ -160,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Home };
+export { HomeUser };

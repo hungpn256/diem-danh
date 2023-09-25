@@ -1,23 +1,41 @@
-import React, { ReactElement, ReactNode } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
-import { TypeViewStyle } from 'types/Common';
+import React, { ReactElement } from 'react';
+import {
+  NativeSyntheticEvent,
+  StyleProp,
+  ViewStyle,
+  NativeScrollEvent,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {
-  children: ReactNode;
-  style?: TypeViewStyle;
-  behavior: 'height' | 'position' | 'padding' | undefined;
+  children: React.ReactNode;
+  scrollEnabled?: boolean;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+  testID?: string;
+  keyboardShouldPersistTaps?: boolean | 'always' | 'never' | 'handled';
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 };
 
-const BaseKeyboardAvoiding = ({
+const BaseKeyboardAvoidingView = ({
   children,
-  style,
-  behavior,
+  scrollEnabled = true,
+  contentContainerStyle,
+  keyboardShouldPersistTaps,
+  testID,
+  onScroll,
 }: Props): ReactElement => {
   return (
-    <KeyboardAvoidingView style={style} behavior={behavior}>
+    <KeyboardAwareScrollView
+      testID={testID}
+      keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+      contentContainerStyle={[{ flex: 1 }, contentContainerStyle]}
+      style={{ flex: 1 }}
+      scrollEnabled={scrollEnabled}
+      onScroll={onScroll}
+    >
       {children}
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
-export { BaseKeyboardAvoiding };
+export { BaseKeyboardAvoidingView };

@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { regexPassword } from 'screens/Register';
 import { BaseText } from 'components/atoms/BaseText';
 import { BaseView } from 'components/atoms/BaseView';
+import { AppContainer } from 'components/molecules/AppContainer';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { StorageService } from 'services/StorageService';
@@ -50,7 +51,7 @@ const Login = () => {
 
   return (
     <BaseView style={{ flex: 1 }}>
-      <ScrollView>
+      <AppContainer isKeyboardAvoidingView>
         <BaseView
           style={{
             backgroundColor: theme.colors.primary,
@@ -143,7 +144,7 @@ const Login = () => {
             Nếu bạn chưa có tài khoản, Hãy đăng ký
           </Button>
         </BaseView>
-      </ScrollView>
+      </AppContainer>
     </BaseView>
   );
 };

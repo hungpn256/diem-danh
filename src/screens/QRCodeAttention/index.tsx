@@ -40,6 +40,12 @@ export default function QRCodeAttention() {
   }, [timeCheckIn]);
 
   useEffect(() => {
+    return () => {
+      createTokenCheckin();
+    };
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setTimeCheckIn(time => {
         if (time > 0) {

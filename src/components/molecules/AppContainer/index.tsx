@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-import { BaseKeyboardAvoiding } from 'components/atoms/BaseKeyboardAvoiding';
+import { BaseKeyboardAvoidingView } from 'components/atoms/BaseKeyboardAvoiding';
 import { BaseScroll } from 'components/atoms/BaseScroll';
 import { BaseView } from 'components/atoms/BaseView';
 import { UIConst } from 'consts/UIConst';
@@ -17,6 +17,7 @@ type Props = {
   onScroll?:
     | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void)
     | undefined;
+  isKeyboardAvoidingView?: boolean;
 };
 
 const AppContainer = ({
@@ -26,6 +27,7 @@ const AppContainer = ({
   styleContent,
   scrollEnabled = true,
   onScroll,
+  isKeyboardAvoidingView,
 }: Props): ReactElement => {
   const styleBase = {
     paddingTop: isSafeView ? UIConst.STATUS_BAR_HEIGHT : 0,
@@ -33,6 +35,9 @@ const AppContainer = ({
   };
 
   const CustomView = scrollEnabled ? BaseScroll : BaseView;
+  const AvoidingView = isKeyboardAvoidingView
+    ? BaseKeyboardAvoidingView
+    : BaseView;
 
   return (
     <CustomView
@@ -43,14 +48,11 @@ const AppContainer = ({
       onScroll={onScroll}
       scrollEventThrottle={16}
     >
-      <BaseKeyboardAvoiding
-        style={styles.ctKeyboard}
-        behavior={UIConst.OS_IOS ? 'padding' : 'height'}
-      >
+      <AvoidingView style={styles.ctKeyboard}>
         <BaseView style={{ ...styleBase, ...styleContent }}>
           {children}
         </BaseView>
-      </BaseKeyboardAvoiding>
+      </AvoidingView>
     </CustomView>
   );
 };
