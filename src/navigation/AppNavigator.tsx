@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AddUser } from 'screens/AddUser';
 import { AdditionalWork } from 'screens/AdditionalWork';
 import { ChooseRole } from 'screens/ChooseRole';
+import { HomeUser } from 'screens/HomeUser';
 import { Login } from 'screens/Login';
 import QRCode from 'screens/QRCode';
 import QRCodeAttention from 'screens/QRCodeAttention';
@@ -18,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigator = (): ReactElement => {
   return (
     <Stack.Navigator
-      initialRouteName={ScreenConst.CHOOSE_ROLE_SCREEN}
+      initialRouteName={ScreenConst.SPLASH_SCREEN}
       screenOptions={{
         headerShown: false,
       }}
@@ -49,6 +50,7 @@ const AppNavigator = (): ReactElement => {
         name={ScreenConst.ADDITIONAL_SCAN_QR_SCREEN}
         component={ScanQRAttention}
       />
+      <Stack.Screen name={ScreenConst.HOME_USER_SCREEN} component={HomeUser} />
     </Stack.Navigator>
   );
 };

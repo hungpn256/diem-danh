@@ -197,17 +197,30 @@ export const AddUser = () => {
             {isEditing ? 'Chỉnh sửa' : 'Đăng Ký'}
           </Button>
           {isEditing && (
-            <Button
-              style={{ margin: 10 }}
-              mode="contained"
-              onPress={() => {
-                NavigationService.navigate(ScreenConst.QR_CODE_SCREEN, {
-                  user,
-                });
-              }}
-            >
-              Mã QR đăng nhập
-            </Button>
+            <>
+              <Button
+                style={{ margin: 10 }}
+                mode="contained"
+                onPress={() => {
+                  NavigationService.navigate(ScreenConst.QR_CODE_SCREEN, {
+                    user,
+                  });
+                }}
+              >
+                Mã QR đăng nhập
+              </Button>
+              <Button
+                style={{ margin: 10 }}
+                mode="contained"
+                onPress={() => {
+                  NavigationService.navigate(ScreenConst.HOME_USER_SCREEN, {
+                    userId: user._id,
+                  });
+                }}
+              >
+                Chấm công chi tiết
+              </Button>
+            </>
           )}
         </BaseView>
       </ScrollView>

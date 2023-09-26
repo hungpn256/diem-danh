@@ -2,6 +2,7 @@ const ScreenConst = {
   SPLASH_SCREEN: 'SplashScreen',
   MAIN_TAB_BOTTOM_SCREEN: 'MainTabBottomScreen',
   HOME_SCREEN: 'HomeScreen',
+  HOME_USER_SCREEN: 'HomeUserScreen',
   PROFILE_SCREEN: 'ProfileScreen',
   SERVICE_SCREEN: 'ServiceScreen',
   LOGIN_SCREEN: 'LOGIN_SCREEN',

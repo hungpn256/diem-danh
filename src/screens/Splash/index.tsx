@@ -6,14 +6,17 @@ import { NavigationService } from 'services/NavigationService';
 import { StorageService } from 'services/StorageService';
 import { ScreenConst } from 'consts/ScreenConst';
 import { StorageConst } from 'consts/StorageConst';
+import { useAppInfo } from 'context/AppInfo';
 
 const Splash = (): ReactElement => {
+  const { setUser } = useAppInfo();
   useEffect(() => {
     const getToken = async (): Promise<any> => {
       try {
         const token = await StorageService.get(StorageConst.TOKEN);
         if (token) {
-          await axios.get('/user/profile');
+          const res = await axios.get('/user/profile');
+          setUser(res.data.user);
           NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
         } else {
           NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);
