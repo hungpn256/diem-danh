@@ -31,8 +31,8 @@ export interface User {
 
 const Home = (): ReactElement => {
   const [isExtended, setIsExtended] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
   const fabStyle = { right: 16 };
+  const [loading, setLoading] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
 
   useEffect(() => {

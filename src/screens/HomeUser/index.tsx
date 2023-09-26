@@ -140,6 +140,7 @@ const HomeUser = (): ReactElement => {
           onChange={onValueChange}
           value={date.toDate()}
           maximumDate={moment().toDate()}
+          locale="vi"
         />
       )}
     </BaseView>

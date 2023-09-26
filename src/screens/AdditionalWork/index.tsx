@@ -39,11 +39,14 @@ export const AdditionalWork = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    trigger,
   } = useForm({
     resolver: yupResolver(schemaRegister),
   });
   const params = useRoute().params as any;
   const isAdditionalWork = !!params?.isAdditionalWork;
+  const leaveRequest = params?.leaveRequest;
+  const getData = params?.getData;
 
   const onSubmit = async (data: any) => {
     try {
@@ -52,7 +55,7 @@ export const AdditionalWork = () => {
         ...data,
         type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
       });
-
+      await getData?.();
       NavigationService.back();
     } catch (error) {
       getError(error);
@@ -83,9 +86,15 @@ export const AdditionalWork = () => {
                   setOpen(true);
                 }}
                 ref={inputRef}
+                disabled={leaveRequest}
               />
             )}
             name="date"
+            defaultValue={
+              leaveRequest?.date
+                ? moment(leaveRequest?.date).format('YYYY/MM/DD')
+                : ''
+            }
           />
           <Controller
             control={control}
@@ -100,21 +109,36 @@ export const AdditionalWork = () => {
                 }}
               >
                 <Chip
-                  onPress={() => setValue('time', '10')}
+                  onPress={() => {
+                    if (!leaveRequest) {
+                      setValue('time', '10');
+                      trigger('time');
+                    }
+                  }}
                   style={{ marginRight: 10 }}
                   selected={value === '10'}
                 >
                   Sáng
                 </Chip>
                 <Chip
-                  onPress={() => setValue('time', '01')}
+                  onPress={() => {
+                    if (!leaveRequest) {
+                      setValue('time', '01');
+                      trigger('time');
+                    }
+                  }}
                   style={{ marginRight: 10 }}
                   selected={value === '01'}
                 >
                   Chiều
                 </Chip>
                 <Chip
-                  onPress={() => setValue('time', '11')}
+                  onPress={() => {
+                    if (!leaveRequest) {
+                      setValue('time', '11');
+                      trigger('time');
+                    }
+                  }}
                   selected={value === '11'}
                 >
                   Cả ngày
@@ -122,6 +146,7 @@ export const AdditionalWork = () => {
               </View>
             )}
             name="time"
+            defaultValue={leaveRequest?.time}
           />
           {errors['time'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -144,9 +169,11 @@ export const AdditionalWork = () => {
                 value={value}
                 multiline
                 numberOfLines={3}
+                disabled={leaveRequest}
               />
             )}
             name="reason"
+            defaultValue={leaveRequest?.reason}
           />
           {errors['reason'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -154,14 +181,16 @@ export const AdditionalWork = () => {
             </Text>
           )}
           <Divider style={{ margin: 50 }} />
-          <Button
-            style={{ margin: 10 }}
-            mode="contained"
-            onPress={handleSubmit(onSubmit)}
-            disabled={Object.keys(errors).length > 0}
-          >
-            {isAdditionalWork ? 'Bổ sung công' : 'Đăng ký nghỉ phép'}
-          </Button>
+          {!leaveRequest && (
+            <Button
+              style={{ margin: 10 }}
+              mode="contained"
+              onPress={handleSubmit(onSubmit)}
+              disabled={Object.keys(errors).length > 0}
+            >
+              {isAdditionalWork ? 'Bổ sung công' : 'Đăng ký nghỉ phép'}
+            </Button>
+          )}
         </BaseView>
       </ScrollView>
       <DatePicker
@@ -172,6 +201,7 @@ export const AdditionalWork = () => {
           setOpen(false);
           setDate(date);
           setValue('date', moment(date).format('YYYY/MM/DD'));
+          trigger('date');
           inputRef.current?.blur?.();
         }}
         onCancel={() => {

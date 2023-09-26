@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AddUser } from 'screens/AddUser';
 import { AdditionalWork } from 'screens/AdditionalWork';
+import { AdditionalWorkList } from 'screens/AdditionalWorkList';
 import { ChooseRole } from 'screens/ChooseRole';
 import { HomeUser } from 'screens/HomeUser';
 import { Login } from 'screens/Login';
@@ -51,6 +52,10 @@ const AppNavigator = (): ReactElement => {
         component={ScanQRAttention}
       />
       <Stack.Screen name={ScreenConst.HOME_USER_SCREEN} component={HomeUser} />
+      <Stack.Screen
+        name={ScreenConst.ADDITIONAL_WORK_LIST_SCREEN}
+        component={AdditionalWorkList}
+      />
     </Stack.Navigator>
   );
 };
