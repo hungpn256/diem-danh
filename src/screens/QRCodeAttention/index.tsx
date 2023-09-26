@@ -25,7 +25,12 @@ export default function QRCodeAttention() {
     try {
       LoadingView.show();
       const res = await axios.post('/attendance/create-token');
-      setData(JSON.stringify({ ...res.data, userManagerId: user._id }));
+      setData(
+        JSON.stringify({
+          ...res.data,
+          userManagerId: user._id,
+        }),
+      );
       setTimeCheckIn(30);
     } catch (error) {
       getError(error);

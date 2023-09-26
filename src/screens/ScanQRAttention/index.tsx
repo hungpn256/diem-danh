@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
 import { Alert, StyleSheet } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { BarcodeFormat, useScanBarcodes } from 'vision-camera-code-scanner';
 import { BaseView } from 'components/atoms/BaseView';
@@ -15,6 +16,7 @@ const ScanQRAttention = () => {
       const cameraPermission = await Camera.getCameraPermissionStatus();
       if (cameraPermission !== 'authorized') {
         Alert.alert('Camera', 'Vui lòng cho phép quyền truy cập camera');
+        NavigationService.back();
       }
     };
     getPermission();
@@ -33,7 +35,10 @@ const ScanQRAttention = () => {
         loadingRef.current = true;
         if (barcodes?.[0]?.displayValue) {
           const data = JSON.parse(barcodes?.[0]?.displayValue);
-          await axios.post('/attendance/attendance', data);
+          await axios.post('/attendance/attendance', {
+            ...data,
+            deviceUniqueId: await DeviceInfo.getUniqueId(),
+          });
           NavigationService.back();
         }
         loadingRef.current = false;
