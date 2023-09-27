@@ -4,6 +4,7 @@ import { AddUser } from 'screens/AddUser';
 import { AdditionalWork } from 'screens/AdditionalWork';
 import { AdditionalWorkList } from 'screens/AdditionalWorkList';
 import { ChooseRole } from 'screens/ChooseRole';
+import { Company } from 'screens/Company';
 import { HomeUser } from 'screens/HomeUser';
 import { Login } from 'screens/Login';
 import QRCode from 'screens/QRCode';
@@ -56,6 +57,7 @@ const AppNavigator = (): ReactElement => {
         name={ScreenConst.ADDITIONAL_WORK_LIST_SCREEN}
         component={AdditionalWorkList}
       />
+      <Stack.Screen name={ScreenConst.ADD_COMPANY_SCREEN} component={Company} />
     </Stack.Navigator>
   );
 };

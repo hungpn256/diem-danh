@@ -41,7 +41,11 @@ const Login = () => {
       const token = res.data.token;
       setUser(res.data?.user);
       await StorageService.set(StorageConst.TOKEN, token);
-      NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+      if (res.data.user.managedBy) {
+        NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+      } else {
+        NavigationService.reset(ScreenConst.ADD_COMPANY_SCREEN);
+      }
     } catch (error) {
       getError(error);
     } finally {

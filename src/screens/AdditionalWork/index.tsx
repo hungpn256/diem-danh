@@ -15,12 +15,14 @@ import {
 } from 'react-native-paper';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native';
+import { getStatus } from 'screens/AdditionalWorkList';
 import { BaseView } from 'components/atoms/BaseView';
 import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
+import { useAppInfo } from 'context/AppInfo';
 
 export const schemaRegister = yup.object().shape({
   reason: yup.string().required('Bắt buộc nhập'),
@@ -47,6 +49,7 @@ export const AdditionalWork = () => {
   const isAdditionalWork = !!params?.isAdditionalWork;
   const leaveRequest = params?.leaveRequest;
   const getData = params?.getData;
+  const { user } = useAppInfo();
 
   const onSubmit = async (data: any) => {
     try {
@@ -69,6 +72,15 @@ export const AdditionalWork = () => {
       <Header title={isAdditionalWork ? 'Bổ sung công' : 'Đăng ký nghỉ phép'} />
       <ScrollView>
         <BaseView style={{ padding: 10, paddingVertical: 50 }}>
+          {user.role === 'admin' && (
+            <TextInput
+              style={{ marginVertical: 10 }}
+              label="Người tạo"
+              mode="outlined"
+              value={user.email}
+              editable={false}
+            />
+          )}
           <Controller
             control={control}
             rules={{
@@ -86,7 +98,7 @@ export const AdditionalWork = () => {
                   setOpen(true);
                 }}
                 ref={inputRef}
-                disabled={leaveRequest}
+                editable={!leaveRequest}
               />
             )}
             name="date"
@@ -169,7 +181,7 @@ export const AdditionalWork = () => {
                 value={value}
                 multiline
                 numberOfLines={3}
-                disabled={leaveRequest}
+                editable={!leaveRequest}
               />
             )}
             name="reason"
@@ -180,6 +192,26 @@ export const AdditionalWork = () => {
               {errors['reason'].message}
             </Text>
           )}
+          <Chip
+            ellipsizeMode="tail"
+            style={{
+              backgroundColor:
+                leaveRequest.status === 'PENDING'
+                  ? 'orange'
+                  : leaveRequest.status === 'ACCEPTED'
+                  ? 'green'
+                  : 'red',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 5,
+              alignSelf: 'flex-start',
+            }}
+            textStyle={{
+              color: 'white',
+            }}
+          >
+            {getStatus(leaveRequest.status)}
+          </Chip>
           <Divider style={{ margin: 50 }} />
           {!leaveRequest && (
             <Button
@@ -190,6 +222,60 @@ export const AdditionalWork = () => {
             >
               {isAdditionalWork ? 'Bổ sung công' : 'Đăng ký nghỉ phép'}
             </Button>
+          )}
+
+          {user?.role === 'admin' && leaveRequest.status === 'PENDING' && (
+            <>
+              <Button
+                style={{ margin: 10 }}
+                mode="contained"
+                onPress={async () => {
+                  try {
+                    LoadingView.show();
+                    await axios.post(
+                      '/attendance/additional-work/' + leaveRequest._id,
+                      {
+                        status: 'ACCEPTED',
+                      },
+                    );
+                    await getData?.();
+                    NavigationService.back();
+                  } catch (e) {
+                    getError(e);
+                  } finally {
+                    LoadingView.hide();
+                  }
+                }}
+                disabled={Object.keys(errors).length > 0}
+              >
+                Chấp nhận
+              </Button>
+              <Button
+                style={{ margin: 10 }}
+                mode="contained"
+                onPress={async () => {
+                  try {
+                    LoadingView.show();
+                    await axios.post(
+                      '/attendance/additional-work/' + leaveRequest._id,
+                      {
+                        status: 'REJECTED',
+                      },
+                    );
+                    await getData?.();
+                    NavigationService.back();
+                  } catch (e) {
+                    getError(e);
+                  } finally {
+                    LoadingView.hide();
+                  }
+                }}
+                disabled={Object.keys(errors).length > 0}
+                buttonColor={theme.colors.error}
+              >
+                Từ chối
+              </Button>
+            </>
           )}
         </BaseView>
       </ScrollView>

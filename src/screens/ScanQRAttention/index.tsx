@@ -40,6 +40,7 @@ const ScanQRAttention = () => {
             deviceUniqueId: await DeviceInfo.getUniqueId(),
           });
           NavigationService.back();
+          Alert.alert('Chấm công', 'Thành công! Xin cảm ơn');
         }
         loadingRef.current = false;
       } catch (error) {

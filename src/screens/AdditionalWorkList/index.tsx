@@ -17,6 +17,19 @@ import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
 import { useAppInfo } from 'context/AppInfo';
 
+export const getStatus = (status: string) => {
+  switch (status) {
+    case 'PENDING':
+      return 'Chờ xác nhận';
+    case 'ACCEPTED':
+      return 'Đã xác nhận';
+    case 'REJECTED':
+      return 'Huỷ bỏ';
+    default:
+      return '';
+  }
+};
+
 const AdditionalWorkList = (): ReactElement => {
   const [loading, setLoading] = React.useState(false);
   const [date, setDate] = React.useState(moment());
@@ -48,21 +61,33 @@ const AdditionalWorkList = (): ReactElement => {
       setLoading(true);
       const from = date.clone().startOf('months');
       const to = date.clone().endOf('months');
-      const res = await axios.get('/attendance/additional-work', {
-        params: {
-          where: {
-            date: {
-              $gte: from,
-              $lte: to,
-            },
-            userId,
+      let res;
+      if (user.role === 'admin') {
+        res = await axios.get('/attendance/additional-work-admin', {
+          params: {
+            from,
+            to,
             type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
           },
-          sort: {
-            createdAt: 'ascending',
+        });
+      } else {
+        res = await axios.get('/attendance/additional-work', {
+          params: {
+            where: {
+              date: {
+                $gte: from,
+                $lte: to,
+              },
+              userId,
+              type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
+            },
+            sort: {
+              createdAt: 'ascending',
+            },
           },
-        },
-      });
+        });
+      }
+
       const resData = res.data?.leaveRequests;
       setData(resData);
     } catch (error) {
@@ -91,19 +116,6 @@ const AdditionalWorkList = (): ReactElement => {
         return 'Chiều';
       case '11':
         return 'Cả ngày';
-      default:
-        return '';
-    }
-  };
-
-  const getStatus = (status: string) => {
-    switch (status) {
-      case 'PENDING':
-        return 'Chờ xác nhận';
-      case 'ACCEPTED':
-        return 'Đã xác nhận';
-      case 'REJECTED':
-        return 'Huỷ bỏ';
       default:
         return '';
     }
@@ -139,9 +151,12 @@ const AdditionalWorkList = (): ReactElement => {
                   {`${getWorkSession(leaveRequest.time)}`}
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 2 }}>
+                  {leaveRequest.userId.email}
+                </DataTable.Cell>
+                <DataTable.Cell style={{ flex: 2 }}>
                   {
                     <Chip
-                      ellipsizeMode="middle"
+                      ellipsizeMode="tail"
                       style={{
                         backgroundColor:
                           leaveRequest.status === 'PENDING'
@@ -149,8 +164,12 @@ const AdditionalWorkList = (): ReactElement => {
                             : leaveRequest.status === 'ACCEPTED'
                             ? 'green'
                             : 'red',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
-                      textStyle={{ color: 'white' }}
+                      textStyle={{
+                        color: 'white',
+                      }}
                     >
                       {getStatus(leaveRequest.status)}
                     </Chip>
@@ -166,26 +185,31 @@ const AdditionalWorkList = (): ReactElement => {
             <DataTable.Header>
               <DataTable.Title>Ngày</DataTable.Title>
               <DataTable.Title>Thời gian</DataTable.Title>
+              {user.role === 'admin' && (
+                <DataTable.Title style={{ flex: 2 }}>Người tạo</DataTable.Title>
+              )}
               <DataTable.Title style={{ flex: 2 }}>Trạng thái</DataTable.Title>
             </DataTable.Header>
           )}
         />
       </DataTable>
-      <AnimatedFAB
-        icon={'plus'}
-        label={'Thêm mới'}
-        extended={isExtended}
-        onPress={() =>
-          NavigationService.navigate(ScreenConst.ADDITIONAL_WORK_SCREEN, {
-            isAdditionalWork,
-            getData,
-          })
-        }
-        visible={true}
-        animateFrom={'right'}
-        iconMode={'dynamic'}
-        style={[styles.fabStyle, fabStyle]}
-      />
+      {user.role !== 'admin' && (
+        <AnimatedFAB
+          icon={'plus'}
+          label={'Thêm mới'}
+          extended={isExtended}
+          onPress={() =>
+            NavigationService.navigate(ScreenConst.ADDITIONAL_WORK_SCREEN, {
+              isAdditionalWork,
+              getData,
+            })
+          }
+          visible={true}
+          animateFrom={'right'}
+          iconMode={'dynamic'}
+          style={[styles.fabStyle, fabStyle]}
+        />
+      )}
 
       {show && (
         <MonthPicker
