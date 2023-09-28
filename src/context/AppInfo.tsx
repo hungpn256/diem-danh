@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {
   ReactElement,
   ReactNode,
@@ -21,8 +22,14 @@ type Props = {
 const AppInfoProvider = ({ children }: Props): ReactElement => {
   const [user, setUser] = useState<User | undefined>();
 
+  const getUser = async () => {
+    const res = await axios.get('/user/profile');
+    setUser(res.data.user);
+    return res.data;
+  };
+
   return (
-    <AppInfoContext.Provider value={{ user, setUser }}>
+    <AppInfoContext.Provider value={{ user, setUser, getUser }}>
       {children}
     </AppInfoContext.Provider>
   );

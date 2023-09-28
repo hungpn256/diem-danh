@@ -9,18 +9,17 @@ import { StorageConst } from 'consts/StorageConst';
 import { useAppInfo } from 'context/AppInfo';
 
 const Splash = (): ReactElement => {
-  const { setUser } = useAppInfo();
+  const { getUser } = useAppInfo();
   useEffect(() => {
     const getToken = async (): Promise<any> => {
       try {
         const token = await StorageService.get(StorageConst.TOKEN);
         if (token) {
-          const res = await axios.get('/user/profile');
-          setUser(res.data.user);
-          if (res.data.user.role === 'admin' && res.data.user.managedBy) {
-            NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
-          } else {
+          const data = await getUser();
+          if (data.user.role === 'admin' && !data.user.managedBy) {
             NavigationService.reset(ScreenConst.ADD_COMPANY_SCREEN);
+          } else {
+            NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
           }
         } else {
           NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);

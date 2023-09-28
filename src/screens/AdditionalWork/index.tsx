@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {
   Button,
@@ -49,16 +49,24 @@ export const AdditionalWork = () => {
   const isAdditionalWork = !!params?.isAdditionalWork;
   const leaveRequest = params?.leaveRequest;
   const getData = params?.getData;
-  const { user } = useAppInfo();
+  const { user, getUser } = useAppInfo();
 
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
+      const leaveOff = data.time === '11' ? 1 : 0.5;
+      if (!isAdditionalWork) {
+        if (user.numOfDaysOff < leaveOff) {
+          Alert.alert('Nghỉ phép', 'Số ngày nghỉ phép còn lại không đủ');
+          return;
+        }
+      }
       await axios.post('/attendance/additional-work', {
         ...data,
         type: isAdditionalWork ? 'ADDITIONAL' : 'LEAVE',
       });
       await getData?.();
+      await getUser?.();
       NavigationService.back();
     } catch (error) {
       getError(error);
@@ -192,26 +200,34 @@ export const AdditionalWork = () => {
               {errors['reason'].message}
             </Text>
           )}
-          <Chip
-            ellipsizeMode="tail"
-            style={{
-              backgroundColor:
-                leaveRequest.status === 'PENDING'
-                  ? 'orange'
-                  : leaveRequest.status === 'ACCEPTED'
-                  ? 'green'
-                  : 'red',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 5,
-              alignSelf: 'flex-start',
-            }}
-            textStyle={{
-              color: 'white',
-            }}
-          >
-            {getStatus(leaveRequest.status)}
-          </Chip>
+
+          {leaveRequest && (
+            <Chip
+              ellipsizeMode="tail"
+              style={{
+                backgroundColor:
+                  leaveRequest.status === 'PENDING'
+                    ? 'orange'
+                    : leaveRequest.status === 'ACCEPTED'
+                    ? 'green'
+                    : 'red',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 5,
+                alignSelf: 'flex-start',
+              }}
+              textStyle={{
+                color: 'white',
+              }}
+            >
+              {getStatus(leaveRequest.status)}
+            </Chip>
+          )}
+          {!leaveRequest && !isAdditionalWork && (
+            <Text variant="labelSmall">
+              {`Số ngày nghỉ phép còn lại: ${user.numOfDaysOff}`}
+            </Text>
+          )}
           <Divider style={{ margin: 50 }} />
           {!leaveRequest && (
             <Button
@@ -232,7 +248,7 @@ export const AdditionalWork = () => {
                 onPress={async () => {
                   try {
                     LoadingView.show();
-                    await axios.post(
+                    await axios.put(
                       '/attendance/additional-work/' + leaveRequest._id,
                       {
                         status: 'ACCEPTED',
@@ -256,7 +272,7 @@ export const AdditionalWork = () => {
                 onPress={async () => {
                   try {
                     LoadingView.show();
-                    await axios.post(
+                    await axios.put(
                       '/attendance/additional-work/' + leaveRequest._id,
                       {
                         status: 'REJECTED',
