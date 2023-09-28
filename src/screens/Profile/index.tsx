@@ -16,7 +16,7 @@ const Profile = (): ReactElement => {
           NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);
         }}
       >
-        Đăng xuất
+        Đăng xuất2
       </Button>
     </AppContainer>
   );

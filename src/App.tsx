@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { ReactElement, useEffect } from 'react';
+import codePush from 'react-native-code-push';
 import { PaperProvider } from 'react-native-paper';
 import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,7 +14,7 @@ import { StorageConst } from 'consts/StorageConst';
 import { AppInfoProvider } from 'context/AppInfo';
 import { ThemeProvider } from 'context/Theme';
 
-const App = (): ReactElement => {
+const AppComponent = (): ReactElement => {
   useEffect(() => {
     const server = true
       ? 'https://diem-danh-be.onrender.com/api'
@@ -47,5 +48,7 @@ const App = (): ReactElement => {
     </PaperProvider>
   );
 };
+
+const App = codePush(AppComponent);
 
 export { App };
