@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "prettier --check ./src && eslint 'src/**/*.{tsx, ts, json}' && tslint 'src/**/*.{ts,tsx}'",
     "start": "react-native start",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "cp": "appcenter codepush release-react -a dev-xxx/doan-chien -d Staging"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",

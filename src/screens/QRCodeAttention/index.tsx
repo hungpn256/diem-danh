@@ -28,7 +28,7 @@ export default function QRCodeAttention() {
       setData(
         JSON.stringify({
           ...res.data,
-          userManagerId: user._id,
+          companyId: user.managedBy._id,
         }),
       );
       setTimeCheckIn(30);
@@ -51,16 +51,22 @@ export default function QRCodeAttention() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeCheckIn(time => {
-        if (time > 0) {
-          return --time;
-        }
-        return time;
-      });
-    }, 1000);
+    let interval: number;
+    if (data) {
+      interval = setInterval(() => {
+        setTimeCheckIn(time => {
+          if (time > 0) {
+            return --time;
+          }
+          return time;
+        });
+      }, 1000);
+    }
+
     return () => {
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [data]);
 
