@@ -13,6 +13,7 @@ import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
+import { formatMoney } from 'core/helpers/formatMoney';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
 
@@ -175,8 +176,10 @@ export const AddUser = () => {
                 label="Lương"
                 mode="outlined"
                 onBlur={onBlur}
-                onChangeText={onChange}
-                value={`${value}`}
+                onChangeText={text => {
+                  onChange(text.replace(/,/g, ''));
+                }}
+                value={`${formatMoney(value)}`}
               />
             )}
             name="currentSalary"
