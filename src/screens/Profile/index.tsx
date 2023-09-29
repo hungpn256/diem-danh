@@ -74,7 +74,7 @@ const Profile = (): ReactElement => {
             Đăng xuất
           </Button>
           <Text variant="labelSmall" style={{ textAlign: 'center' }}>
-            App version: {DeviceInfo.getBuildNumber()} (
+            App version: {DeviceInfo.getVersion()} (
             {DeviceInfo.getBuildNumber()})
           </Text>
         </Card>
