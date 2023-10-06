@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 import { BaseView } from 'components/atoms/BaseView';
@@ -12,31 +12,40 @@ import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
+import { useAppInfo } from 'context/AppInfo';
 
-export const schemaRegister = yup.object().shape({
-  email: yup.string(),
+export const schemaRegisterCompany = yup.object().shape({
+  name: yup.string().required(),
+  morningStartTime: yup.number().required(),
+  morningEndTime: yup.number().required(),
+  afternoonStartTime: yup.number().required(),
+  afternoonEndTime: yup.number().required(),
 });
 
 export const Company = () => {
   const isEditing = false;
   const theme = useTheme();
+  const { getUser } = useAppInfo();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schemaRegister) });
+  } = useForm({ resolver: yupResolver(schemaRegisterCompany) });
 
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
-      await axios.post('/company', {
-        name: 'company-name',
-        morningStartTime: 8.5,
-        morningEndTime: 12,
-        afternoonStartTime: 13.5,
-        afternoonEndTime: 17.5,
-      });
-      NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+      if (
+        data.morningStartTime < data.morningEndTime &&
+        data.morningEndTime < data.afternoonStartTime &&
+        data.afternoonStartTime < data.afternoonEndTime
+      ) {
+        await axios.post('/company', data);
+        await getUser();
+        NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+      } else {
+        Alert.alert('Lỗi', 'Thời gian không đúng');
+      }
     } catch (error) {
       getError(error);
     } finally {
@@ -49,7 +58,7 @@ export const Company = () => {
       <Header title={isEditing ? 'Chỉnh sửa' : 'Công ty'} />
       <ScrollView>
         <BaseView style={{ padding: 10, paddingVertical: 50 }}>
-          {/* <Controller
+          <Controller
             control={control}
             rules={{
               required: true,
@@ -60,17 +69,109 @@ export const Company = () => {
                 onChangeText={onChange}
                 value={value}
                 style={{ marginVertical: 10 }}
-                label="Email"
+                label="Name"
                 mode="outlined"
               />
             )}
-            name="email"
+            name="name"
           />
-          {errors['email'] && (
+          {errors['name'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
-              {errors['email'].message}
+              {errors['name'].message}
             </Text>
-          )} */}
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value ? `${value}` : ''}
+                style={{ marginVertical: 10 }}
+                label="Thời gian bắt đầu ca sáng"
+                mode="outlined"
+                placeholder="vd: 8.5"
+              />
+            )}
+            name="morningStartTime"
+          />
+          {errors['morningStartTime'] && (
+            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
+              {errors['morningStartTime'].message}
+            </Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value ? `${value}` : ''}
+                style={{ marginVertical: 10 }}
+                label="Thời gian kết thúc ca sáng"
+                mode="outlined"
+                placeholder="vd: 8.5"
+              />
+            )}
+            name="morningEndTime"
+          />
+          {errors['morningEndTime'] && (
+            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
+              {errors['morningEndTime'].message}
+            </Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value ? `${value}` : ''}
+                style={{ marginVertical: 10 }}
+                label="Thời gian bắt đầu ca chiều"
+                mode="outlined"
+                placeholder="vd: 8.5"
+              />
+            )}
+            name="afternoonStartTime"
+          />
+          {errors['afternoonStartTime'] && (
+            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
+              {errors['afternoonStartTime'].message}
+            </Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value ? `${value}` : ''}
+                style={{ marginVertical: 10 }}
+                label="Thời gian kết thúc ca chiều"
+                mode="outlined"
+                placeholder="vd: 8.5"
+              />
+            )}
+            name="afternoonEndTime"
+          />
+          {errors['afternoonEndTime'] && (
+            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
+              {errors['afternoonEndTime'].message}
+            </Text>
+          )}
 
           <Divider style={{ margin: 50 }} />
           <Button

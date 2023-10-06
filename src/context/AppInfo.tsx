@@ -14,6 +14,7 @@ const AppInfoContext = createContext({
   setUser: undefined as
     | React.Dispatch<React.SetStateAction<User | undefined>>
     | undefined,
+  getUser: undefined as () => Promise<void> | undefined,
 });
 
 type Props = {
