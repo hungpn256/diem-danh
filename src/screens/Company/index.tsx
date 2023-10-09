@@ -23,9 +23,10 @@ export const schemaRegisterCompany = yup.object().shape({
 });
 
 export const Company = () => {
-  const isEditing = false;
   const theme = useTheme();
-  const { getUser } = useAppInfo();
+  const { getUser, user } = useAppInfo();
+  const company = user.managedBy;
+  const isEditing = !!company;
   const {
     control,
     handleSubmit,
@@ -40,7 +41,11 @@ export const Company = () => {
         data.morningEndTime < data.afternoonStartTime &&
         data.afternoonStartTime < data.afternoonEndTime
       ) {
-        await axios.post('/company', data);
+        if (isEditing) {
+          await axios.put('/company/' + company._id, data);
+        } else {
+          await axios.post('/company', data);
+        }
         await getUser();
         NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
       } else {
@@ -74,6 +79,7 @@ export const Company = () => {
               />
             )}
             name="name"
+            defaultValue={company?.name ?? ''}
           />
           {errors['name'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -97,6 +103,7 @@ export const Company = () => {
               />
             )}
             name="morningStartTime"
+            defaultValue={company?.morningStartTime ?? ''}
           />
           {errors['morningStartTime'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -120,6 +127,7 @@ export const Company = () => {
               />
             )}
             name="morningEndTime"
+            defaultValue={company?.morningEndTime ?? ''}
           />
           {errors['morningEndTime'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -143,6 +151,7 @@ export const Company = () => {
               />
             )}
             name="afternoonStartTime"
+            defaultValue={company?.afternoonStartTime ?? ''}
           />
           {errors['afternoonStartTime'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>
@@ -166,6 +175,7 @@ export const Company = () => {
               />
             )}
             name="afternoonEndTime"
+            defaultValue={company?.afternoonEndTime ?? ''}
           />
           {errors['afternoonEndTime'] && (
             <Text variant="labelSmall" style={{ color: theme.colors.error }}>

@@ -12,7 +12,7 @@ import { StorageConst } from 'consts/StorageConst';
 import { useAppInfo } from 'context/AppInfo';
 
 const Profile = (): ReactElement => {
-  const { user } = useAppInfo();
+  const { user, getUser } = useAppInfo();
   return (
     <View style={{ flex: 1 }}>
       <Header title="Trang cá nhân" />
@@ -45,21 +45,32 @@ const Profile = (): ReactElement => {
           <Button
             style={{ marginVertical: 8, marginTop: 50 }}
             mode="contained-tonal"
-            onPress={() => console.log('Pressed')}
+            onPress={() =>
+              NavigationService.navigate(ScreenConst.ADD_USER_SCREEN, {
+                user,
+                getUser,
+              })
+            }
           >
             Chỉnh sửa thông tin cá nhân
           </Button>
+          {user.role === 'admin' && (
+            <Button
+              style={{ marginVertical: 8 }}
+              mode="contained-tonal"
+              onPress={() =>
+                NavigationService.navigate(ScreenConst.ADD_COMPANY_SCREEN)
+              }
+            >
+              Chỉnh sửa thông tin công ty
+            </Button>
+          )}
           <Button
             style={{ marginVertical: 8 }}
             mode="contained-tonal"
-            onPress={() => console.log('Pressed')}
-          >
-            Chỉnh sửa thông tin công ty
-          </Button>
-          <Button
-            style={{ marginVertical: 8 }}
-            mode="contained-tonal"
-            onPress={() => console.log('Pressed')}
+            onPress={() =>
+              NavigationService.navigate(ScreenConst.FORGOT_PASSWORD_SCREEN)
+            }
           >
             Đổi mật khẩu
           </Button>

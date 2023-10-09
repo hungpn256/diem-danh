@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
@@ -16,6 +16,7 @@ import { NavigationService } from 'services/NavigationService';
 import { formatMoney } from 'core/helpers/formatMoney';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
+import { useAppInfo } from 'context/AppInfo';
 
 export const schemaRegister = yup.object().shape({
   name: yup.string().required('Bắt buộc nhập'),
@@ -38,11 +39,20 @@ export const AddUser = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
+    trigger,
   } = useForm({ resolver: yupResolver(schemaRegister) });
+  const { user: me } = useAppInfo();
   const params = useRoute().params as any;
-  const user = params?.user as User;
+  const user = params?.user as User | undefined;
   const getUser = params?.getUser as any;
   const isEditing = !!params?.user;
+  const isMe = user?._id === me._id;
+
+  useEffect(() => {
+    setValue('currentSalary', user?.currentSalary ?? 0);
+    trigger('currentSalary');
+  }, []);
 
   const onSubmit = async (data: any) => {
     try {
@@ -54,7 +64,7 @@ export const AddUser = () => {
         });
         await getUser();
       } else {
-        await axios.put('/user/' + user._id, {
+        await axios.put('/user/' + user?._id, {
           ...data,
         });
         await getUser();
@@ -165,30 +175,37 @@ export const AddUser = () => {
               {errors['phoneNumber'].message}
             </Text>
           )}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={{ marginVertical: 10 }}
-                label="Lương"
-                mode="outlined"
-                onBlur={onBlur}
-                onChangeText={text => {
-                  onChange(text.replace(/,/g, ''));
+          {!isMe && (
+            <>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
                 }}
-                value={`${formatMoney(value)}`}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={{ marginVertical: 10 }}
+                    label="Lương"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={text => {
+                      onChange(text.replace(/,/g, ''));
+                    }}
+                    value={`${formatMoney(value)}`}
+                  />
+                )}
+                name="currentSalary"
+                defaultValue={user?.currentSalary || 0}
               />
-            )}
-            name="currentSalary"
-            defaultValue={user?.currentSalary || 0}
-          />
-          {errors['currentSalary'] && (
-            <Text variant="labelSmall" style={{ color: theme.colors.error }}>
-              {errors['currentSalary'].message}
-            </Text>
+              {errors['currentSalary'] && (
+                <Text
+                  variant="labelSmall"
+                  style={{ color: theme.colors.error }}
+                >
+                  {errors['currentSalary'].message}
+                </Text>
+              )}
+            </>
           )}
           <Divider style={{ margin: 50 }} />
           <Button
@@ -199,7 +216,7 @@ export const AddUser = () => {
           >
             {isEditing ? 'Chỉnh sửa' : 'Đăng Ký'}
           </Button>
-          {isEditing && (
+          {isEditing && !isMe && (
             <>
               <Button
                 style={{ margin: 10 }}
@@ -217,7 +234,7 @@ export const AddUser = () => {
                 mode="contained"
                 onPress={() => {
                   NavigationService.navigate(ScreenConst.HOME_USER_SCREEN, {
-                    userId: user._id,
+                    userId: user?._id,
                   });
                 }}
               >
