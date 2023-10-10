@@ -11,6 +11,7 @@ import { Login } from 'screens/Login';
 import QRCode from 'screens/QRCode';
 import QRCodeAttention from 'screens/QRCodeAttention';
 import { Register } from 'screens/Register';
+import { Salary } from 'screens/Salary';
 import { ScanQR } from 'screens/ScanQR';
 import { ScanQRAttention } from 'screens/ScanQRAttention';
 import { Splash } from 'screens/Splash';
@@ -63,6 +64,7 @@ const AppNavigator = (): ReactElement => {
         name={ScreenConst.FORGOT_PASSWORD_SCREEN}
         component={ForgotPassword}
       />
+      <Stack.Screen name={ScreenConst.SALARY_SCREEN} component={Salary} />
     </Stack.Navigator>
   );
 };

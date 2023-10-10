@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { ReactElement } from 'react';
 import { Button } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
@@ -48,6 +49,15 @@ const Service = (): ReactElement => {
           style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
         >
           Phiếu đăng ký nghỉ phép
+        </Button>
+        <Button
+          onPress={() => {
+            NavigationService.navigate(ScreenConst.SALARY_SCREEN);
+          }}
+          mode="elevated"
+          style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
+        >
+          Lương nhân viên tháng {moment().get('month')}
         </Button>
       </AppContainer>
     </BaseView>
