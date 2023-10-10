@@ -18,7 +18,12 @@ const Profile = (): ReactElement => {
       <Header title="Trang cá nhân" />
       <AppContainer>
         <Card style={{ margin: 20, padding: 25 }}>
-          <Chip style={{ padding: 10, alignItems: 'center' }}>
+          <Chip
+            style={{
+              padding: 10,
+              alignItems: 'center',
+            }}
+          >
             <Image
               source={{
                 uri: 'https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png',
@@ -85,7 +90,7 @@ const Profile = (): ReactElement => {
             Đăng xuất
           </Button>
           <Text variant="labelSmall" style={{ textAlign: 'center' }}>
-            App version: {DeviceInfo.getVersion()} (
+            Phiên bản ứng dụng: {DeviceInfo.getVersion()} (
             {DeviceInfo.getBuildNumber()})
           </Text>
         </Card>

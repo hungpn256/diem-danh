@@ -2,9 +2,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
+import { useRoute } from '@react-navigation/native';
 import { regexPassword } from 'screens/Register';
 import { BaseText } from 'components/atoms/BaseText';
 import { BaseView } from 'components/atoms/BaseView';
@@ -27,6 +28,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const theme = useTheme();
+  const isAdmin = useRoute().params?.isAdmin;
   const {
     control,
     handleSubmit,
@@ -37,6 +39,8 @@ const Login = () => {
   const onSubmit = async (data: any) => {
     try {
       LoadingView.show();
+      data.deviceName = await DeviceInfo.getDeviceName();
+      data.deviceUniqueId = await DeviceInfo.getUniqueId();
       const res = await axios.post('/user/login', data);
       const token = res.data.token;
       setUser(res.data?.user);
@@ -140,13 +144,15 @@ const Login = () => {
           >
             Đăng Nhập
           </Button>
-          <Button
-            onPress={() => {
-              NavigationService.navigate(ScreenConst.REGISTER_SCREEN);
-            }}
-          >
-            Nếu bạn chưa có tài khoản, Hãy đăng ký
-          </Button>
+          {isAdmin && (
+            <Button
+              onPress={() => {
+                NavigationService.navigate(ScreenConst.REGISTER_SCREEN);
+              }}
+            >
+              Nếu bạn chưa có tài khoản, Hãy đăng ký
+            </Button>
+          )}
         </BaseView>
       </AppContainer>
     </BaseView>

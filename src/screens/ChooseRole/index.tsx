@@ -46,7 +46,9 @@ const ChooseRole = () => {
           style={{ flex: 1, marginHorizontal: 10 }}
           labelStyle={{ paddingVertical: 15, fontSize: 20, fontWeight: '600' }}
           onPress={() => {
-            NavigationService.navigate(ScreenConst.LOGIN_SCREEN);
+            NavigationService.navigate(ScreenConst.LOGIN_SCREEN, {
+              isAdmin: true,
+            });
           }}
         >
           Quản lý
@@ -65,7 +67,9 @@ const ChooseRole = () => {
           style={{ flex: 1, marginHorizontal: 10 }}
           labelStyle={{ paddingVertical: 15, fontSize: 20, fontWeight: '600' }}
           onPress={() => {
-            NavigationService.navigate(ScreenConst.SCAN_QR_SCREEN);
+            NavigationService.navigate(ScreenConst.LOGIN_SCREEN, {
+              isAdmin: false,
+            });
           }}
         >
           Nhân viên

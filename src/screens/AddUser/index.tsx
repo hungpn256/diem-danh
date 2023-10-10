@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native';
@@ -221,10 +221,18 @@ export const AddUser = () => {
               <Button
                 style={{ margin: 10 }}
                 mode="contained"
-                onPress={() => {
-                  NavigationService.navigate(ScreenConst.QR_CODE_SCREEN, {
-                    user,
-                  });
+                onPress={async () => {
+                  try {
+                    LoadingView.show();
+                    await axios.post('/user/create-password', {
+                      email: user?.email,
+                    });
+                    Alert.alert('Thành công', 'Mật khẩu đã được gửi về mail');
+                  } catch (error) {
+                    getError(error);
+                  } finally {
+                    LoadingView.hide();
+                  }
                 }}
               >
                 Mã QR đăng nhập
