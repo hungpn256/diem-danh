@@ -27,13 +27,20 @@ export default function QRCodeAttention() {
   const [permissionSuccess, setPermission] = useState(false);
 
   useEffect(() => {
-    Geolocation.requestAuthorization(() => {
-      setPermission(true);
-    });
+    Geolocation.requestAuthorization(
+      () => {
+        setPermission(true);
+      },
+      () => {
+        setPermission(false);
+      },
+    );
   }, []);
 
   useEffect(() => {
-    createTokenCheckin();
+    if (permissionSuccess) {
+      createTokenCheckin();
+    }
   }, [permissionSuccess]);
 
   const createTokenCheckin = async () => {
