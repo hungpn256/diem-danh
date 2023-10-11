@@ -1,5 +1,6 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
+import CodePush from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
 import { Button, Card, Chip, Text } from 'react-native-paper';
 import { AppContainer } from 'components/molecules/AppContainer';
@@ -13,6 +14,13 @@ import { useAppInfo } from 'context/AppInfo';
 
 const Profile = (): ReactElement => {
   const { user, getUser } = useAppInfo();
+  const [codepushVer, setCodepushVer] = useState<string | undefined>();
+  useEffect(() => {
+    (async () => {
+      const ver = await CodePush.getUpdateMetadata();
+      setCodepushVer(ver?.label);
+    })();
+  }, []);
   return (
     <View style={{ flex: 1 }}>
       <Header title="Trang cá nhân" />
@@ -91,7 +99,7 @@ const Profile = (): ReactElement => {
           </Button>
           <Text variant="labelSmall" style={{ textAlign: 'center' }}>
             Phiên bản ứng dụng: {DeviceInfo.getVersion()} (
-            {DeviceInfo.getBuildNumber()})
+            {DeviceInfo.getBuildNumber()}) {codepushVer}
           </Text>
         </Card>
       </AppContainer>

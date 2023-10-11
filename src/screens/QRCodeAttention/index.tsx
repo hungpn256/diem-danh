@@ -10,9 +10,11 @@ import { AppContainer } from 'components/molecules/AppContainer';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
+import { StorageService } from 'services/StorageService';
 import { getCurrentPosition } from 'core/helpers/Location';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
+import { StorageConst } from 'consts/StorageConst';
 import { UIConst } from 'consts/UIConst';
 import { useAppInfo } from 'context/AppInfo';
 
@@ -62,6 +64,10 @@ export default function QRCodeAttention() {
             longitude: location.coords.longitude,
           },
         }),
+      );
+      StorageService.set(
+        StorageConst.INIT_SCREEN,
+        ScreenConst.QR_CODE_ATTENTION_SCREEN,
       );
       setTimeCheckIn(30);
     } catch (error) {
@@ -113,6 +119,7 @@ export default function QRCodeAttention() {
         deviceName: await DeviceInfo.getDeviceName(),
       });
       onClose();
+      await StorageService.remove(StorageConst.INIT_SCREEN);
       NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
     } catch (err) {
       getError(err);

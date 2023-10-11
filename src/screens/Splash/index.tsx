@@ -17,7 +17,14 @@ const Splash = (): ReactElement => {
           if (data.user.role === 'admin' && !data.user.managedBy) {
             NavigationService.reset(ScreenConst.ADD_COMPANY_SCREEN);
           } else {
-            NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+            const initScreen = await StorageService.get(
+              StorageConst.INIT_SCREEN,
+            );
+            if (initScreen) {
+              NavigationService.reset(initScreen);
+            } else {
+              NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
+            }
           }
         } else {
           NavigationService.reset(ScreenConst.CHOOSE_ROLE_SCREEN);
