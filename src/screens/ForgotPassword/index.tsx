@@ -49,7 +49,7 @@ export const ForgotPassword = () => {
 
   return (
     <AppContainer scrollEnabled={false} isKeyboardAvoidingView>
-      <Header title="Quên mật khẩu" />
+      <Header title="Đổi mật khẩu" />
       <ScrollView>
         <BaseView style={{ padding: 10, paddingVertical: 50 }}>
           <Controller
