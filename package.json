@@ -13,10 +13,12 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
     "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native-community/geolocation": "^3.1.0",
     "@react-navigation/bottom-tabs": "6.5.7",
     "@react-navigation/native": "6.1.6",
     "@react-navigation/native-stack": "6.9.12",
     "axios": "1.5.0",
+    "geolib": "^3.3.4",
     "i18next": "22.4.14",
     "moment": "^2.29.4",
     "patch-package": "8.0.0",

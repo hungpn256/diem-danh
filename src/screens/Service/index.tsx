@@ -17,7 +17,7 @@ const Service = (): ReactElement => {
           mode="elevated"
           style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
           onPress={() => {
-            NavigationService.navigate(ScreenConst.QR_CODE_ATTENTION_SCREEN);
+            NavigationService.reset(ScreenConst.QR_CODE_ATTENTION_SCREEN);
           }}
         >
           QR chấm công

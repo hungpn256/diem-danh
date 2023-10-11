@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getDistance } from 'geolib';
 import React, { useEffect, useRef } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -8,14 +9,19 @@ import { BaseView } from 'components/atoms/BaseView';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
 import { NavigationService } from 'services/NavigationService';
+import {
+  getCurrentPosition,
+  requestAuthorization,
+} from 'core/helpers/Location';
 import { getError } from 'core/helpers/getError';
 
 const ScanQRAttention = () => {
   useEffect(() => {
     const getPermission = async () => {
       const cameraPermission = await Camera.getCameraPermissionStatus();
-      if (cameraPermission !== 'authorized') {
-        Alert.alert('Camera', 'Vui lòng cho phép quyền truy cập camera');
+      const resPermission = await requestAuthorization();
+      if (cameraPermission !== 'authorized' && !resPermission) {
+        Alert.alert('Lỗi', 'Vui lòng cho phép quyền truy cập camera và vị trí');
         NavigationService.back();
       }
     };
@@ -34,7 +40,17 @@ const ScanQRAttention = () => {
         LoadingView.show();
         loadingRef.current = true;
         if (barcodes?.[0]?.displayValue) {
-          const data = JSON.parse(barcodes?.[0]?.displayValue);
+          const { location, ...data } = JSON.parse(barcodes?.[0]?.displayValue);
+          const currentLocation = await getCurrentPosition();
+
+          const distance = getDistance(location, {
+            latitude: currentLocation.coords.latitude,
+            longitude: currentLocation.coords.longitude,
+          });
+          if (distance > 5) {
+            Alert.alert('Vị trí', 'Bạn đang không gần vị trí quét mã');
+            return;
+          }
           await axios.post('/attendance/attendance', {
             ...data,
             deviceUniqueId: await DeviceInfo.getUniqueId(),

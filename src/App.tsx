@@ -1,3 +1,4 @@
+import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import React, { ReactElement, useEffect } from 'react';
 import codePush from 'react-native-code-push';
@@ -31,6 +32,12 @@ const AppComponent = (): ReactElement => {
         return Promise.reject(error);
       },
     );
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: false,
+      authorizationLevel: 'always',
+      enableBackgroundLocationUpdates: true,
+      locationProvider: 'auto',
+    });
   }, []);
   return (
     <PaperProvider>
