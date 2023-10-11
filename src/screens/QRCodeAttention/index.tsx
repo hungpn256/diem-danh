@@ -33,6 +33,10 @@ export default function QRCodeAttention() {
       },
       () => {
         setPermission(false);
+        if (!permissionSuccess) {
+          Alert.alert('Quyền', 'Không có quyền truy cập');
+          return;
+        }
       },
     );
   }, []);
@@ -45,10 +49,6 @@ export default function QRCodeAttention() {
 
   const createTokenCheckin = async () => {
     try {
-      if (!permissionSuccess) {
-        Alert.alert('Quyền', 'Không có quyền truy cập');
-        return;
-      }
       LoadingView.show();
       const location = await getCurrentPosition();
       location.coords.latitude;
