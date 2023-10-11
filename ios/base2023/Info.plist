@@ -6,6 +6,12 @@
 	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
+  <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
