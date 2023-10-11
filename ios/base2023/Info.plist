@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>cho phép luôn sử dụng vị trí</string>
+	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>cho phép luôn sử dụng vị trí</string>
+	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
