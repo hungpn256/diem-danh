@@ -97,6 +97,7 @@ export const AddUser = () => {
                   label="ID"
                   mode="outlined"
                   disabled={isEditing}
+                  autoCapitalize="none"
                 />
               )}
               name="_id"
@@ -118,6 +119,7 @@ export const AddUser = () => {
                 label="Email"
                 mode="outlined"
                 disabled={isEditing}
+                autoCapitalize="none"
               />
             )}
             name="email"
@@ -142,6 +144,7 @@ export const AddUser = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
               />
             )}
             name="name"
@@ -165,6 +168,7 @@ export const AddUser = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
               />
             )}
             name="phoneNumber"
@@ -192,6 +196,7 @@ export const AddUser = () => {
                       onChange(text.replace(/,/g, ''));
                     }}
                     value={`${formatMoney(value)}`}
+                    autoCapitalize="none"
                   />
                 )}
                 name="currentSalary"

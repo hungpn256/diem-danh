@@ -87,6 +87,7 @@ export const AdditionalWork = () => {
               mode="outlined"
               value={user.email}
               editable={false}
+              autoCapitalize="none"
             />
           )}
           <Controller
@@ -107,6 +108,7 @@ export const AdditionalWork = () => {
                 }}
                 ref={inputRef}
                 editable={!leaveRequest}
+                autoCapitalize="none"
               />
             )}
             name="date"
@@ -190,6 +192,7 @@ export const AdditionalWork = () => {
                 multiline
                 numberOfLines={3}
                 editable={!leaveRequest}
+                autoCapitalize="none"
               />
             )}
             name="reason"

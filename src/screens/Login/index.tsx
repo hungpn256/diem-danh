@@ -103,6 +103,7 @@ const Login = () => {
                 style={{ marginVertical: 10 }}
                 label="Email"
                 mode="outlined"
+                autoCapitalize="none"
               />
             )}
             name="email"

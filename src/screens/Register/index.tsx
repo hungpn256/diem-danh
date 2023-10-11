@@ -99,6 +99,7 @@ const Register = () => {
                 style={{ marginVertical: 10 }}
                 label="Email"
                 mode="outlined"
+                autoCapitalize="none"
               />
             )}
             name="email"
@@ -121,6 +122,7 @@ const Register = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
               />
             )}
             name="name"
@@ -143,6 +145,7 @@ const Register = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
               />
             )}
             name="phoneNumber"

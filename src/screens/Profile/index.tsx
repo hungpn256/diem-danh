@@ -26,17 +26,23 @@ const Profile = (): ReactElement => {
       <Header title="Trang cá nhân" />
       <AppContainer>
         <Card style={{ margin: 20, padding: 25 }}>
-          <Chip
+          <View
             style={{
               padding: 10,
               alignItems: 'center',
+              flexDirection: 'row',
             }}
           >
             <Image
               source={{
                 uri: 'https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png',
               }}
-              style={{ width: 80, height: 80, borderRadius: 100 }}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 40,
+                marginRight: 8,
+              }}
             />
             <View>
               <Text variant="labelMedium" style={{ padding: 5 }}>
@@ -54,7 +60,7 @@ const Profile = (): ReactElement => {
                 </Text>
               )}
             </View>
-          </Chip>
+          </View>
           <Button
             style={{ marginVertical: 8, marginTop: 50 }}
             mode="contained-tonal"

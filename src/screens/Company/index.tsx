@@ -76,6 +76,7 @@ export const Company = () => {
                 style={{ marginVertical: 10 }}
                 label="Name"
                 mode="outlined"
+                autoCapitalize="none"
               />
             )}
             name="name"
@@ -100,6 +101,7 @@ export const Company = () => {
                 label="Thời gian bắt đầu ca sáng"
                 mode="outlined"
                 placeholder="vd: 8.5"
+                autoCapitalize="none"
               />
             )}
             name="morningStartTime"
@@ -124,6 +126,7 @@ export const Company = () => {
                 label="Thời gian kết thúc ca sáng"
                 mode="outlined"
                 placeholder="vd: 8.5"
+                autoCapitalize="none"
               />
             )}
             name="morningEndTime"
@@ -148,6 +151,7 @@ export const Company = () => {
                 label="Thời gian bắt đầu ca chiều"
                 mode="outlined"
                 placeholder="vd: 8.5"
+                autoCapitalize="none"
               />
             )}
             name="afternoonStartTime"
@@ -172,6 +176,7 @@ export const Company = () => {
                 label="Thời gian kết thúc ca chiều"
                 mode="outlined"
                 placeholder="vd: 8.5"
+                autoCapitalize="none"
               />
             )}
             name="afternoonEndTime"
