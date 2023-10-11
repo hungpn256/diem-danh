@@ -145,7 +145,9 @@ export default function QRCodeAttention() {
               Chấm công
             </Text>
           </BaseView>
-          {data && <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />}
+          {data && permissionSuccess && (
+            <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />
+          )}
           <Text style={{ marginVertical: 10 }} variant="bodyLarge">
             Quét mã để chấm công: {timeCheckIn}s
           </Text>
