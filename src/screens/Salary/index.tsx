@@ -6,6 +6,7 @@ import MonthPicker from 'react-native-month-year-picker';
 import { Button, DataTable } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
 import Header from 'components/organisms/Header';
+import LoadingView from 'components/organisms/LoadingView';
 import { formatMoney } from 'core/helpers/formatMoney';
 import { getError } from 'core/helpers/getError';
 
@@ -14,6 +15,7 @@ const Salary = (): ReactElement => {
   const [date, setDate] = React.useState(moment());
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
+  const [salaryClosed, setSalaryClosed] = useState(true);
 
   useEffect(() => {
     getData();
@@ -32,6 +34,7 @@ const Salary = (): ReactElement => {
       });
       const resData = res.data.result;
       setData(resData);
+      setSalaryClosed(res.data.salaryClosed ?? true);
     } catch (error) {
       getError(error);
     } finally {
@@ -96,19 +99,31 @@ const Salary = (): ReactElement => {
           locale="vi"
         />
       )}
+
+      {!salaryClosed && moment().isSame(moment(date), 'month') && (
+        <Button
+          style={{ position: 'absolute', bottom: 30, left: 50, right: 50 }}
+          mode="contained"
+          onPress={async () => {
+            try {
+              LoadingView.show();
+              await axios.post('/attendance/salary-closed', {
+                from: moment(date).startOf('month'),
+                to: moment(date).endOf('month'),
+              });
+              setSalaryClosed(true);
+            } catch (e) {
+              getError(e);
+            } finally {
+              LoadingView.hide();
+            }
+          }}
+        >
+          Chốt lương
+        </Button>
+      )}
     </BaseView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-  },
-  fabStyle: {
-    bottom: 50,
-    right: 16,
-    position: 'absolute',
-  },
-});
 
 export { Salary };

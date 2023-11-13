@@ -57,7 +57,7 @@ const Service = (): ReactElement => {
           mode="elevated"
           style={{ borderRadius: 8, padding: 10, margin: 30, marginBottom: 0 }}
         >
-          Lương nhân viên tháng {moment().get('month')}
+          Lương nhân viên tháng {moment().get('month') + 1}
         </Button>
       </AppContainer>
     </BaseView>
