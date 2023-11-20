@@ -2,6 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { Alert } from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
 import { Button, DataTable } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
@@ -50,6 +51,29 @@ const Salary = (): ReactElement => {
         setShow(false);
       case 'dismissedAction':
         setShow(false);
+    }
+  };
+
+  const confirmSalary = () => {
+    Alert.alert(
+      'Chốt lương',
+      'Bạn có chắc chắn muốn chốt lương tháng này không?',
+      [{ text: 'Huỷ' }, { onPress: calSalary, text: 'OK' }],
+    );
+  };
+
+  const calSalary = async () => {
+    try {
+      LoadingView.show();
+      await axios.post('/attendance/salary-closed', {
+        from: moment(date).startOf('month'),
+        to: moment(date).endOf('month'),
+      });
+      setSalaryClosed(true);
+    } catch (e) {
+      getError(e);
+    } finally {
+      LoadingView.hide();
     }
   };
 
@@ -104,20 +128,7 @@ const Salary = (): ReactElement => {
         <Button
           style={{ position: 'absolute', bottom: 30, left: 50, right: 50 }}
           mode="contained"
-          onPress={async () => {
-            try {
-              LoadingView.show();
-              await axios.post('/attendance/salary-closed', {
-                from: moment(date).startOf('month'),
-                to: moment(date).endOf('month'),
-              });
-              setSalaryClosed(true);
-            } catch (e) {
-              getError(e);
-            } finally {
-              LoadingView.hide();
-            }
-          }}
+          onPress={confirmSalary}
         >
           Chốt lương
         </Button>
