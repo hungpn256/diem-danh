@@ -23,7 +23,10 @@ export default function Header({ title }: { title: string }) {
         }}
       ></View>
 
-      <Appbar.Header style={{ backgroundColor: 'transparent' }}>
+      <Appbar.Header
+        style={{ backgroundColor: 'transparent' }}
+        mode="center-aligned"
+      >
         <Appbar.Content color="white" title={title} />
       </Appbar.Header>
       {navigation.canGoBack() && (
