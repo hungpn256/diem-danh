@@ -19,7 +19,7 @@ const AppComponent = (): ReactElement => {
   useEffect(() => {
     const server = true
       ? 'https://diem-danh-be.onrender.com/api'
-      : 'http://localhost:1200/api';
+      : 'http://10.0.2.2:1200/api';
 
     axios.defaults.baseURL = server;
     axios.interceptors.request.use(
