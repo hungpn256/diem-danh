@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, ScrollView } from 'react-native';
+import { Alert, Modal, Pressable, ScrollView, View } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native';
@@ -31,6 +32,7 @@ export const schemaRegister = yup.object().shape({
     .required('Bắt buộc nhập')
     .min(0, 'Lương lớn hơn 0'),
   _id: yup.string(),
+  department: yup.string(),
 });
 
 export const AddUser = () => {
@@ -42,12 +44,15 @@ export const AddUser = () => {
     setValue,
     trigger,
   } = useForm({ resolver: yupResolver(schemaRegister) });
-  const { user: me } = useAppInfo();
+  const { user: me, departments } = useAppInfo();
   const params = useRoute().params as any;
   const user = params?.user as User | undefined;
   const getUser = params?.getUser as any;
   const isEditing = !!params?.user;
   const isMe = user?._id === me._id;
+  const [visible, setVisible] = useState(false);
+  const [valuePicker, setValuePicker] = useState(user?.department?._id);
+  const refDepartment = useRef();
 
   useEffect(() => {
     setValue('currentSalary', user?.currentSalary ?? 0);
@@ -75,6 +80,12 @@ export const AddUser = () => {
     } finally {
       LoadingView.hide();
     }
+  };
+
+  const onChooseDepartment = () => {
+    setValuePicker(user?.department?._id);
+    setVisible(true);
+    refDepartment.current?.blur();
   };
 
   return (
@@ -180,6 +191,30 @@ export const AddUser = () => {
             </Text>
           )}
           {!isMe && (
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={{ marginVertical: 10 }}
+                  label="Bộ phận"
+                  mode="outlined"
+                  onBlur={() => {
+                    onBlur();
+                  }}
+                  ref={refDepartment}
+                  onFocus={onChooseDepartment}
+                  value={departments.find(item => item._id === value)?.name}
+                  autoCapitalize="none"
+                />
+              )}
+              name="department"
+              defaultValue={user?.department?._id}
+            />
+          )}
+          {!isMe && (
             <>
               <Controller
                 control={control}
@@ -257,6 +292,35 @@ export const AddUser = () => {
           )}
         </BaseView>
       </ScrollView>
+      <Modal transparent visible={visible} animationType="fade">
+        <Pressable
+          style={{ flex: 1, backgroundColor: '#00000010' }}
+          onPress={() => setVisible(false)}
+        />
+        <Picker
+          style={{ backgroundColor: '#fff' }}
+          selectedValue={valuePicker}
+          mode="dialog"
+          onValueChange={(itemValue, itemIndex) => {
+            setValue('department', itemValue as string);
+            setValuePicker(itemValue);
+          }}
+        >
+          {departments.map(item => {
+            return (
+              <Picker.Item key={item._id} label={item.name} value={item._id} />
+            );
+          })}
+        </Picker>
+        <View style={{ backgroundColor: '#fff' }}>
+          <Button
+            style={{ marginBottom: 34 }}
+            onPress={() => setVisible(false)}
+          >
+            OK
+          </Button>
+        </View>
+      </Modal>
     </AppContainer>
   );
 };

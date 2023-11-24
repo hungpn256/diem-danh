@@ -5,6 +5,7 @@ import { AdditionalWork } from 'screens/AdditionalWork';
 import { AdditionalWorkList } from 'screens/AdditionalWorkList';
 import { ChooseRole } from 'screens/ChooseRole';
 import { Company } from 'screens/Company';
+import { Department } from 'screens/Department';
 import { ForgotPassword } from 'screens/ForgotPassword';
 import { HomeUser } from 'screens/HomeUser';
 import { Login } from 'screens/Login';
@@ -65,6 +66,10 @@ const AppNavigator = (): ReactElement => {
         component={ForgotPassword}
       />
       <Stack.Screen name={ScreenConst.SALARY_SCREEN} component={Salary} />
+      <Stack.Screen
+        name={ScreenConst.DEPARTMENT_SCREEN}
+        component={Department}
+      />
     </Stack.Navigator>
   );
 };

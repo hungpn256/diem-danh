@@ -197,6 +197,17 @@ export const Company = () => {
           >
             {isEditing ? 'Chỉnh sửa' : 'Tạo mới'}
           </Button>
+          {isEditing && (
+            <Button
+              style={{ margin: 10 }}
+              mode="contained"
+              onPress={() => {
+                NavigationService.navigate(ScreenConst.DEPARTMENT_SCREEN);
+              }}
+            >
+              Quản lý bộ phận
+            </Button>
+          )}
         </BaseView>
       </ScrollView>
     </AppContainer>
