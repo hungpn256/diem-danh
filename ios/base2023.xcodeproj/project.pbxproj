@@ -573,6 +573,7 @@
 				DEVELOPMENT_TEAM = BZN472K588;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = base2023/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "diem-danh";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -600,6 +601,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BZN472K588;
 				INFOPLIST_FILE = base2023/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "diem-danh";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -14,6 +14,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { IDepartment } from 'screens/Department';
 import { BaseTouch } from 'components/atoms/BaseTouch';
 import { BaseView } from 'components/atoms/BaseView';
 import Header from 'components/organisms/Header';
@@ -27,6 +28,8 @@ export interface User {
   phoneNumber: string;
   email: string;
   currentSalary?: number;
+  department?: IDepartment;
+  role: 'admin' | 'user';
 }
 
 const Home = (): ReactElement => {
