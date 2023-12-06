@@ -67,6 +67,7 @@ export const AdditionalWork = () => {
       });
       await getData?.();
       await getUser?.();
+      Alert.alert('Thành công', 'Bạn đã nộp đơn thành công');
       NavigationService.back();
     } catch (error) {
       getError(error);
