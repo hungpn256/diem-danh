@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
-  <key>UIUserInterfaceStyle</key>
-    <string>Light</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -53,8 +43,12 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Cần cho phép để lấy vị trí hiện tại cho việc chấm công</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
 	<key>UIAppFonts</key>
@@ -91,6 +85,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

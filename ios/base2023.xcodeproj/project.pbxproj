@@ -574,6 +574,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = base2023/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "diem-danh";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -583,6 +584,13 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-ld_classic",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+					"-ld_classic",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.dev;
 				PRODUCT_NAME = base2023;
@@ -602,6 +610,7 @@
 				DEVELOPMENT_TEAM = BZN472K588;
 				INFOPLIST_FILE = base2023/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "diem-danh";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -611,6 +620,7 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-ld_classic",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.dev;
 				PRODUCT_NAME = base2023;
