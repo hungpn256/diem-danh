@@ -2,18 +2,22 @@ import axios from 'axios';
 import React, { ReactElement, useEffect, useState } from 'react';
 import {
   FlatList,
+  Modal,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Pressable,
   StyleSheet,
   View,
 } from 'react-native';
 import {
   AnimatedFAB,
+  Button,
   DataTable,
   Searchbar,
   useTheme,
 } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Picker } from 'react-native-wheel-pick';
 import { IDepartment } from 'screens/Department';
 import { BaseTouch } from 'components/atoms/BaseTouch';
 import { BaseView } from 'components/atoms/BaseView';
@@ -21,6 +25,7 @@ import Header from 'components/organisms/Header';
 import { NavigationService } from 'services/NavigationService';
 import { getError } from 'core/helpers/getError';
 import { ScreenConst } from 'consts/ScreenConst';
+import { useAppInfo } from 'context/AppInfo';
 
 export interface User {
   _id: string;
@@ -30,6 +35,7 @@ export interface User {
   currentSalary?: number;
   department?: IDepartment;
   role: 'admin' | 'user';
+  managedBy?: any;
 }
 
 const Home = (): ReactElement => {
@@ -37,6 +43,14 @@ const Home = (): ReactElement => {
   const fabStyle = { right: 16 };
   const [loading, setLoading] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const { departments } = useAppInfo();
+  const departmentsPicker = departments.map(item => ({
+    value: item._id,
+    label: item.name,
+  }));
+  const [visible, setVisible] = useState(false);
+  const [valuePicker, setValuePicker] = useState('');
+  const [departmentPicked, setDepartmentPicked] = useState('');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -45,7 +59,14 @@ const Home = (): ReactElement => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [searchQuery]);
+  }, [searchQuery, departmentPicked]);
+
+  useEffect(() => {
+    if (visible) {
+      setValuePicker(departmentPicked || departmentsPicker?.[0]?.value);
+    }
+  }, [visible]);
+
   const theme = useTheme();
 
   const [users, setUsers] = useState<User[]>([]);
@@ -54,7 +75,7 @@ const Home = (): ReactElement => {
     try {
       setLoading(true);
       const res = await axios.get('/user/get-user-managed', {
-        params: { txtSearch },
+        params: { txtSearch, department: departmentPicked },
       });
       setUsers(res.data.users);
     } catch (error) {
@@ -84,6 +105,10 @@ const Home = (): ReactElement => {
         value={searchQuery}
         style={{ marginHorizontal: 10, marginVertical: 10 }}
       />
+      <Button onPress={() => setVisible(true)}>
+        Theo phòng ban{' '}
+        {departments.find(item => item._id === departmentPicked)?.name}
+      </Button>
       <DataTable style={{ flex: 1 }}>
         <FlatList
           data={users}
@@ -148,6 +173,31 @@ const Home = (): ReactElement => {
         iconMode={'dynamic'}
         style={[styles.fabStyle, fabStyle]}
       />
+      <Modal transparent visible={visible} animationType="fade">
+        <Pressable
+          style={{ flex: 1, backgroundColor: '#00000010' }}
+          onPress={() => setVisible(false)}
+        />
+        <Picker
+          style={{ backgroundColor: 'white' }}
+          selectedValue={departmentPicked}
+          pickerData={[...departmentsPicker, { value: '', label: 'bỏ chọn' }]}
+          onValueChange={value => {
+            setValuePicker(value);
+          }}
+        />
+        <View style={{ backgroundColor: '#fff' }}>
+          <Button
+            style={{ marginBottom: 34 }}
+            onPress={() => {
+              setVisible(false);
+              setDepartmentPicked(valuePicker as string);
+            }}
+          >
+            OK
+          </Button>
+        </View>
+      </Modal>
     </BaseView>
   );
 };

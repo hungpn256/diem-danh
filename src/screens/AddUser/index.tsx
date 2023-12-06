@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Modal, Pressable, ScrollView, View } from 'react-native';
 import { Button, Divider, Text, TextInput, useTheme } from 'react-native-paper';
+import { Picker } from 'react-native-wheel-pick';
 import * as yup from 'yup';
 import { useRoute } from '@react-navigation/native';
 import { User } from 'screens/Home';
@@ -53,11 +53,21 @@ export const AddUser = () => {
   const [visible, setVisible] = useState(false);
   const [valuePicker, setValuePicker] = useState(user?.department?._id);
   const refDepartment = useRef();
+  const departmentsPicker = departments.map(item => ({
+    value: item._id,
+    label: item.name,
+  }));
 
   useEffect(() => {
     setValue('currentSalary', user?.currentSalary ?? 0);
     trigger('currentSalary');
   }, []);
+
+  useEffect(() => {
+    if (visible) {
+      setValuePicker(user?.department?._id || departmentsPicker?.[0]?.value);
+    }
+  }, [visible]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -298,24 +308,20 @@ export const AddUser = () => {
           onPress={() => setVisible(false)}
         />
         <Picker
-          style={{ backgroundColor: '#fff' }}
-          selectedValue={valuePicker}
-          mode="dialog"
-          onValueChange={(itemValue, itemIndex) => {
-            setValue('department', itemValue as string);
-            setValuePicker(itemValue);
+          style={{ backgroundColor: 'white' }}
+          selectedValue={user?.department?._id}
+          pickerData={departmentsPicker}
+          onValueChange={value => {
+            setValuePicker(value);
           }}
-        >
-          {departments.map(item => {
-            return (
-              <Picker.Item key={item._id} label={item.name} value={item._id} />
-            );
-          })}
-        </Picker>
+        />
         <View style={{ backgroundColor: '#fff' }}>
           <Button
             style={{ marginBottom: 34 }}
-            onPress={() => setVisible(false)}
+            onPress={() => {
+              setVisible(false);
+              setValue('department', valuePicker as string);
+            }}
           >
             OK
           </Button>

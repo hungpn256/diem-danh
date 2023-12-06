@@ -45,7 +45,7 @@ const AppInfoProvider = ({ children }: Props): ReactElement => {
   };
 
   useEffect(() => {
-    if (user?.role === 'admin') {
+    if (user?.role === 'admin' && user.managedBy) {
       getDepartment();
     }
   }, [user]);

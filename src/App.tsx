@@ -17,7 +17,7 @@ import { ThemeProvider } from 'context/Theme';
 
 const AppComponent = (): ReactElement => {
   useEffect(() => {
-    const server = false
+    const server = true
       ? 'https://diem-danh-be.onrender.com/api'
       : 'http://10.0.2.2:1200/api';
 
