@@ -1,21 +1,24 @@
 import { t } from 'i18next';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+import { useIsFocused } from '@react-navigation/native';
 import { Home } from 'screens/Home';
 import { HomeUser } from 'screens/HomeUser';
 import { Profile } from 'screens/Profile';
 import { Service } from 'screens/Service';
 import { ServiceUser } from 'screens/ServiceUser';
 import { BaseText } from 'components/atoms/BaseText';
+import { StorageService } from 'services/StorageService';
 import { getValue } from 'core/helpers/Object';
 import { ColorConst } from 'consts/ColorConst';
 import ImageConst from 'consts/ImageConst';
 import { ScreenConst } from 'consts/ScreenConst';
+import { StorageConst } from 'consts/StorageConst';
 import { useAppInfo } from 'context/AppInfo';
 import { styles } from './styles';
 
@@ -79,6 +82,12 @@ const getParams = (route: Route, focused: boolean): Params => {
 const MainTabBottom = (): ReactElement => {
   const { user } = useAppInfo();
   const insets = useSafeAreaInsets();
+  const isfocused = useIsFocused();
+  useEffect(() => {
+    if (isfocused) {
+      StorageService.remove(StorageConst.INIT_SCREEN);
+    }
+  }, [isfocused]);
 
   return (
     <>

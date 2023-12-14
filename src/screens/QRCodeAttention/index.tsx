@@ -100,7 +100,7 @@ export default function QRCodeAttention() {
         deviceName: await DeviceInfo.getDeviceName(),
       });
       onClose();
-      await StorageService.set(StorageConst.INIT_SCREEN, '');
+      await StorageService.remove(StorageConst.INIT_SCREEN);
       NavigationService.reset(ScreenConst.MAIN_TAB_BOTTOM_SCREEN);
     } catch (err) {
       getError(err);
