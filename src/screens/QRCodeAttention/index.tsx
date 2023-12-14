@@ -1,7 +1,6 @@
-import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, StyleSheet, View } from 'react-native';
+import { Modal, StyleSheet, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { Button, Surface, Text, TextInput, useTheme } from 'react-native-paper';
 import QRCodeSVG from 'react-native-qrcode-svg';
@@ -26,28 +25,10 @@ export default function QRCodeAttention() {
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [permissionSuccess, setPermission] = useState(false);
 
   useEffect(() => {
-    Geolocation.requestAuthorization(
-      () => {
-        setPermission(true);
-      },
-      () => {
-        setPermission(false);
-        if (!permissionSuccess) {
-          Alert.alert('Quyền', 'Không có quyền truy cập');
-          return;
-        }
-      },
-    );
+    createTokenCheckin();
   }, []);
-
-  useEffect(() => {
-    if (permissionSuccess) {
-      createTokenCheckin();
-    }
-  }, [permissionSuccess]);
 
   const createTokenCheckin = async () => {
     try {
@@ -152,9 +133,7 @@ export default function QRCodeAttention() {
               Chấm công
             </Text>
           </BaseView>
-          {data && permissionSuccess && (
-            <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />
-          )}
+          {data && <QRCodeSVG value={data} size={UIConst.WIDTH / 2} />}
           <Text style={{ marginVertical: 10 }} variant="bodyLarge">
             Quét mã để chấm công: {timeCheckIn}s
           </Text>
