@@ -285,7 +285,7 @@ export const AddUser = () => {
                   }
                 }}
               >
-                Mã QR đăng nhập
+                Lấy mật khẩu đăng nhập
               </Button>
               <Button
                 style={{ margin: 10 }}
