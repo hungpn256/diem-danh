@@ -30,7 +30,7 @@ export default function QRCodeAttention() {
     createTokenCheckin();
   }, []);
 
-  const createTokenCheckin = async () => {
+  const createTokenCheckin = async (noSetScreen?: boolean) => {
     try {
       LoadingView.show();
       const location = await getCurrentPosition();
@@ -46,10 +46,12 @@ export default function QRCodeAttention() {
           },
         }),
       );
-      StorageService.set(
-        StorageConst.INIT_SCREEN,
-        ScreenConst.QR_CODE_ATTENTION_SCREEN,
-      );
+      if (!noSetScreen) {
+        StorageService.set(
+          StorageConst.INIT_SCREEN,
+          ScreenConst.QR_CODE_ATTENTION_SCREEN,
+        );
+      }
       setTimeCheckIn(30);
     } catch (error) {
       getError(error);
@@ -65,7 +67,7 @@ export default function QRCodeAttention() {
 
   useEffect(() => {
     return () => {
-      createTokenCheckin();
+      createTokenCheckin(true);
     };
   }, []);
 
