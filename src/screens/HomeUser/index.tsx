@@ -1,12 +1,13 @@
 import axios from 'axios';
 import moment from 'moment';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
-import { Button, DataTable, useTheme } from 'react-native-paper';
+import { Button, DataTable, Text, useTheme } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { BaseView } from 'components/atoms/BaseView';
 import Header from 'components/organisms/Header';
+import { countWeekdaysInCurrentMonth } from 'core/helpers/countWeekDay';
 import { getError } from 'core/helpers/getError';
 
 export interface User {
@@ -23,6 +24,7 @@ const HomeUser = (): ReactElement => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const userId = useRoute().params?.userId;
+  const workDayValid = useRef(0);
 
   useEffect(() => {
     getAttendances();
@@ -42,6 +44,15 @@ const HomeUser = (): ReactElement => {
       });
       const result = [];
       const resData = res.data?.attendances;
+      workDayValid.current = resData.reduce((prev, item) => {
+        let count = 0;
+        if (item.workSession === '11') {
+          count = 1;
+        } else if (item.workSession !== '00') {
+          count = 0.5;
+        }
+        return prev + count;
+      }, 0);
       for (let i = 0; i <= to.diff(from, 'day'); i++) {
         const currentDate = from.clone().add(i, 'day');
         let data = {
@@ -92,6 +103,11 @@ const HomeUser = (): ReactElement => {
       <Header title="Chấm công chi tiết" />
       <DataTable style={{ flex: 1 }}>
         <Button onPress={() => setShow(true)}>{date.format('YYYY/MM')}</Button>
+        <Text
+          style={{ paddingLeft: 16, fontWeight: '500', fontSize: 14 }}
+        >{`Tổng công hưởng lương: ${
+          workDayValid.current
+        } / ${countWeekdaysInCurrentMonth(date)}`}</Text>
         <FlatList
           data={data}
           refreshing={loading}

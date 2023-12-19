@@ -46,7 +46,7 @@ const getParams = (route: Route, focused: boolean): Params => {
             name="home"
           />
         ),
-        title: 'trang chủ',
+        title: 'Trang chủ',
       };
     case ScreenConst.PROFILE_SCREEN:
       return {

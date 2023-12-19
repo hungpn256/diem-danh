@@ -47,7 +47,7 @@ const ScanQRAttention = () => {
             latitude: currentLocation.coords.latitude,
             longitude: currentLocation.coords.longitude,
           });
-          if (distance > 5) {
+          if (distance > 100) {
             Alert.alert('Vị trí', 'Bạn đang không gần vị trí quét mã');
             return;
           }
