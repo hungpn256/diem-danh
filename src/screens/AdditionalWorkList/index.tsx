@@ -144,15 +144,17 @@ const AdditionalWorkList = (): ReactElement => {
                   );
                 }}
               >
-                <DataTable.Cell>
+                <DataTable.Cell style={{ flex: 1 }}>
                   {moment(leaveRequest.date).format('MM/DD')}
                 </DataTable.Cell>
-                <DataTable.Cell>
+                <DataTable.Cell style={{ flex: 1 }}>
                   {`${getWorkSession(leaveRequest.time)}`}
                 </DataTable.Cell>
-                <DataTable.Cell style={{ flex: 2 }}>
-                  {leaveRequest.userId.email}
-                </DataTable.Cell>
+                {user.role === 'admin' && (
+                  <DataTable.Cell style={{ flex: 2 }}>
+                    {leaveRequest.userId.email}
+                  </DataTable.Cell>
+                )}
                 <DataTable.Cell style={{ flex: 2 }}>
                   {
                     <Chip
@@ -183,8 +185,8 @@ const AdditionalWorkList = (): ReactElement => {
           style={{ flex: 1 }}
           ListHeaderComponent={() => (
             <DataTable.Header>
-              <DataTable.Title>Ngày</DataTable.Title>
-              <DataTable.Title>Thời gian</DataTable.Title>
+              <DataTable.Title style={{ flex: 1 }}>Ngày</DataTable.Title>
+              <DataTable.Title style={{ flex: 1 }}>Thời gian</DataTable.Title>
               {user.role === 'admin' && (
                 <DataTable.Title style={{ flex: 2 }}>Người tạo</DataTable.Title>
               )}
