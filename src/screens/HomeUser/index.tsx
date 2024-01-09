@@ -48,7 +48,7 @@ const HomeUser = (): ReactElement => {
         let count = 0;
         if (item.workSession === '11') {
           count = 1;
-        } else if (item.workSession !== '00') {
+        } else if (item.workSession && item.workSession !== '00') {
           count = 0.5;
         }
         return prev + count;
