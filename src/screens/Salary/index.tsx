@@ -1,10 +1,10 @@
 import axios from 'axios';
 import moment from 'moment';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Alert } from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
-import { Button, DataTable } from 'react-native-paper';
+import { Button, DataTable, Text, useTheme } from 'react-native-paper';
 import { BaseView } from 'components/atoms/BaseView';
 import Header from 'components/organisms/Header';
 import LoadingView from 'components/organisms/LoadingView';
@@ -17,6 +17,7 @@ const Salary = (): ReactElement => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [salaryClosed, setSalaryClosed] = useState(true);
+  const theme = useTheme();
 
   useEffect(() => {
     getData();
@@ -92,9 +93,7 @@ const Salary = (): ReactElement => {
                   {dataUser.user?.email}
                 </DataTable.Cell>
                 <DataTable.Cell>{dataUser.user?.name}</DataTable.Cell>
-                <DataTable.Cell numeric style={{ flex: 0.5 }}>
-                  {dataUser.workDayValid}
-                </DataTable.Cell>
+                <DataTable.Cell numeric>{dataUser.workDayValid}</DataTable.Cell>
                 <DataTable.Cell numeric>
                   {formatMoney(Math.round(dataUser.salary))}
                 </DataTable.Cell>
@@ -108,7 +107,7 @@ const Salary = (): ReactElement => {
             <DataTable.Header>
               <DataTable.Title style={{ flex: 1.5 }}>Email</DataTable.Title>
               <DataTable.Title>Tên</DataTable.Title>
-              <DataTable.Title style={{ flex: 0.5 }}>Số công</DataTable.Title>
+              <DataTable.Title>Số công</DataTable.Title>
               <DataTable.Title numeric>Lương</DataTable.Title>
             </DataTable.Header>
           )}
@@ -125,13 +124,29 @@ const Salary = (): ReactElement => {
       )}
 
       {!salaryClosed && moment().isSame(moment(date), 'month') && (
-        <Button
-          style={{ position: 'absolute', bottom: 30, left: 50, right: 50 }}
-          mode="contained"
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: 30,
+            left: 50,
+            right: 50,
+            backgroundColor: theme.colors.primary,
+            height: 40,
+            borderRadius: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onPress={confirmSalary}
         >
-          Chốt lương
-        </Button>
+          <Text style={{ color: '#fff', fontSize: 16 }}> Chốt lương</Text>
+        </TouchableOpacity>
+        // <Button
+        //   style={{ position: 'absolute', bottom: 30, left: 50, right: 50 }}
+        //   mode="contained"
+        //   onPress={confirmSalary}
+        // >
+        //   Chốt lương
+        // </Button>
       )}
     </BaseView>
   );

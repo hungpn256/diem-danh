@@ -6,6 +6,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
+  View,
 } from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
 import { AnimatedFAB, Button, Chip, DataTable } from 'react-native-paper';
@@ -156,26 +157,7 @@ const AdditionalWorkList = (): ReactElement => {
                   </DataTable.Cell>
                 )}
                 <DataTable.Cell style={{ flex: 2 }}>
-                  {
-                    <Chip
-                      ellipsizeMode="tail"
-                      style={{
-                        backgroundColor:
-                          leaveRequest.status === 'PENDING'
-                            ? 'orange'
-                            : leaveRequest.status === 'ACCEPTED'
-                            ? 'green'
-                            : 'red',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      textStyle={{
-                        color: 'white',
-                      }}
-                    >
-                      {getStatus(leaveRequest.status)}
-                    </Chip>
-                  }
+                  {getStatus(leaveRequest.status)}
                 </DataTable.Cell>
               </DataTable.Row>
             );

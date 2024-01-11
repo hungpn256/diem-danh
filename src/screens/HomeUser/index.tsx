@@ -44,15 +44,21 @@ const HomeUser = (): ReactElement => {
       });
       const result = [];
       const resData = res.data?.attendances;
-      workDayValid.current = resData.reduce((prev, item) => {
-        let count = 0;
-        if (item.workSession === '11') {
-          count = 1;
-        } else if (item.workSession && item.workSession !== '00') {
-          count = 0.5;
-        }
-        return prev + count;
-      }, 0);
+      workDayValid.current = resData
+        .filter(
+          item =>
+            moment(item.date).get('isoWeekday') >= 1 &&
+            moment(item.date).get('isoWeekday') <= 5,
+        )
+        .reduce((prev, item) => {
+          let count = 0;
+          if (item.workSession === '11') {
+            count = 1;
+          } else if (item.workSession && item.workSession !== '00') {
+            count = 0.5;
+          }
+          return prev + count;
+        }, 0);
       for (let i = 0; i <= to.diff(from, 'day'); i++) {
         const currentDate = from.clone().add(i, 'day');
         let data = {
@@ -128,7 +134,12 @@ const HomeUser = (): ReactElement => {
                     : ''}
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 2 }}>
-                  {`${getWorkSession(attendance.workSession)}${
+                  {`${
+                    moment(attendance.date).get('isoWeekday') >= 1 &&
+                    moment(attendance.date).get('isoWeekday') <= 5
+                      ? getWorkSession(attendance.workSession)
+                      : ''
+                  }${
                     attendance.latePenalty > 0
                       ? ' M:' + attendance.latePenalty
                       : ''
